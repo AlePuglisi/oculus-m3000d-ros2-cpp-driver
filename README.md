@@ -196,7 +196,7 @@ These ROS2 messages reproduce the official oculus sdk messages data structures.
 [This package](/oculus_ros2/) handles the interface with the sonar hardware and the data processing. 
 
 
-#### [``conversions.hpp``](/oculus_ros2/include/oculus_ros2/conversions.hpp)
+#### [``conversions.hpp``](/OCULUS_ROS2/oculus_ros2/include/oculus_ros2/conversions.hpp)
 
 This utils code implements conversions from oculus messages to ROS2 messages.
 
@@ -208,7 +208,7 @@ When the ``oculus_sonar_node`` receives the sonar messages from the low level dr
 </details>
 
 
-#### [``oculus_sonar_node``](/oculus_ros2/src/oculus_sonar_node.cpp)
+#### [``oculus_sonar_node``](OCULUS_ROS2/oculus_ros2/include/oculus_ros2/oculus_sonar_node.hpp)
 
 This Node handles the interface with the sonar hardware thorugh an instance of the low level sonar driver class. 
 
@@ -228,7 +228,7 @@ NOTE: This part is still under development and adjustments.
   
 </details>
 
-#### [``sonar_viewer_node``](/oculus_ros2/src/sonar_viewer_node.cpp)
+#### [``sonar_viewer_node``](OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_viewer_node.hpp)
 
 This Node process the raw sonar data (as bearings-bins matrix) to create a polar and cartesian acoustic image.
 
@@ -254,8 +254,7 @@ By applying the TVG without removing the AGC (remove_agc = false, apply_tvg = tr
   
 </details>
 
-#### [``sonar_point_cloud_node``](/oculus_ros2/src/sonar_point_cloud_node.cpp)
-
+#### [``sonar_point_cloud_node``](OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_point_cloud_node.hpp)
 This Node publishes a point cloud computed from the cartesian sonar image. <br/>
 The points are selcted as the ones with pixel intensity (echo intensity) higher than a specified user threshold. 
 Due to the acoustic image formation model, this naive solution form a point cloud in sonar zero elevation plane (where the sonar frustum is projected). 
@@ -265,7 +264,7 @@ Due to the acoustic image formation model, this naive solution form a point clou
   
 </details>
 
-#### [``sonar_state_estimation_node``](/oculus_ros2/src/sonar_state_estimation_node.cpp)
+#### [``sonar_state_estimation_node``](OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_state_estimation_node.hpp)
 
 This Node exploits the proprioceptive sonar information (depth and orientation) coming from a depth sensor and an AHRS.
 
@@ -278,7 +277,7 @@ This allow a visualization of the sonar frame in rviz (a 3D textured model and a
   
 </details>
 
-#### [``sonar_saver_node``](/oculus_ros2/src/sonar_saver_node.cpp)
+#### [``sonar_saver_node``](OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_saver_node.hpp)
 
 This Node should be runned to save **all** the cartesian and polar acoustic images inside of a specified output directory. 
 
