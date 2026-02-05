@@ -1,6 +1,6 @@
-# Oculus M3000d Sonar ROS2 Driver Documentation
+# Oculus M3000d Sonar C++ Interface Documentation
 
-ROS2 (Jazzy) Driver for the Blueprint subsea Oculus M3000d Sonar. 
+C++ Driver for the Blueprint subsea Oculus M3000d Sonar. 
 
 ###  Software "Development": Updating Extisting Drivers
 
@@ -11,9 +11,8 @@ The mentioned M1200d software has been updated for the M3000d using the blueye p
 
 ## Requirements
 
-This ROS2 metapackage was developed and tested using:
+This C++ Application was developed and tested using:
 * Ubuntu 24.04 LTS
-* ROS2 jazzy
 * CMake 3.28.3
 
 ## Documentation Contents
@@ -36,10 +35,7 @@ This repository contains all the code necessary to build and use the blueprint s
 oculus-ros2-cpp-driver/
 ├── docker/                  # Docker configuration files
 ├── oculus_driver_lib/       # C++ driver library
-├── oculus_ros2/             # ROS2 packages
-│   ├── oculus_interfaces/   # Message/service 
-│   ├── oculus_ros2/         # Main driver package
-│   └── Data/                # Optional data directory
+├── oculus_app/             # C++ app
 ├── reference_oculus_sdk/    # Reference sdk code 
 ├── LICENSE
 └── README.md
@@ -50,28 +46,15 @@ oculus-ros2-cpp-driver/
 
 ### 0) Setting Up the Workspace
 
-1. **Install and set up [ROS2 jazzy](http://wiki.ros.org/ROS/Installation)**
+1. **Clone or Copy this repo (cpp branch)**
 
-2. **Create the ros2 workspace**
-
-    ```
-    mkdir sonar_ws & cd sonar_ws
-    ```
-3. **Create src directory and build**
-    ```
-    mkdir src
-    ```
-    ```
-    colcon build 
-    ```
-
-4. **Clone or Copy this repo in /src**
     ```
     cd src
-    git clone https://github.com/AlePuglisi/oculus-ros2-cpp-driver.git
+    git clone --branch cpp https://github.com/AlePuglisi/oculus-ros2-cpp-driver.git
     ```
 
-5. **Move in the driver dircetory for the next steps**
+2. **Move in the driver directory for the next steps**
+
     ```
     cd oculus-ros2-cpp-driver
     ```
@@ -116,18 +99,29 @@ oculus-ros2-cpp-driver/
     sudo make -j4 install
     ```
 
-### 2) How to Build oculus_ros2
+### 2) Build the oculus_app
 
-If all the steps above compiled without errors, you currently have a ros2 workspace ready to be built and the oculus_driver library properly installed. 
+If all the steps above compiled without errors, you currently have installed the oculus_driver library. 
 
-The ROS2 packages (oculus_interface + oculus_ros2) building is the usual one.
-
-Be sure to be in the workspace root directory (e.g. ~/sonar_ws) 
+1. **Move to the C++ project directory and make build directory**
 
 ```
-colcon build 
+cd oculus_app && mkdir build
 ```
 
+2. **Build the project with your favourite g++ builder**
+
+```
+cd build
+cmake ..
+make -j4
+```
+
+3. **The extecutable is ready**
+
+```
+./oculus_app
+```
 
 ### Integrating New Features and Understading the Driver
 
