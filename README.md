@@ -2,6 +2,8 @@
 
 ROS2 (Jazzy) Driver for the Blueprint subsea Oculus M3000d Sonar. 
 
+A C++ (Without ROS) Sonar interface is under development in the [``cpp`` branch of this repo](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/tree/cpp)
+
 ###  Software "Development": Updating Extisting Drivers
 
 This package is adapted and extended from the M1200d [ROS2 Driver](https://github.com/godardma/oculus_ros2/tree/main) by ENSTA Bretagne Robotics, and the underlying low level Driver [Sonar Interface](https://github.com/ENSTABretagneRobotics/oculus_driver)
