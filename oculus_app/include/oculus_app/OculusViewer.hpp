@@ -1,63 +1,81 @@
-/**
- * BSD 3-Clause License
- *
- * Copyright (c) 2022, ENSTA-Bretagne
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *    list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
- * 3. Neither the name of the copyright holder nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
 
-#ifndef OCULUS_VIEWER
-#define OCULUS_VIEWER
+#ifndef OCULUS_VIEWER_HPP
+#define OCULUS_VIEWER_HPP
 
-// OpenCV 
+// OpenCV
 #include <opencv2/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgproc.hpp>
+
+// Oculus Driver
+#include <oculus_driver/Oculus.h>
+#include <oculus_driver/OculusMessage.h>
 
 // Logger
 #include <oculus_app/Logger.hpp>
 
-// Additional Utils and Libraries
+// Utilities
 #include <oculus_app/sonar_utils.hpp>
+
+#include <memory>
+#include <string>
 
 class OculusViewer {
 public:
-  OculusViewer();
-  ~OculusViewer();
+    OculusViewer(std::shared_ptr<Logger> logger = nullptr);
+    ~OculusViewer();
+
+    /**
+     * @brief Process and display ping data
+     * @param ping Ping message from sonar
+     */
+    void displayPing(const oculus::PingMessage::ConstPtr& ping);
+
+    /**
+     * @brief Set viewer parameters
+     */
+    void setRemoveAGC(bool remove) { remove_agc_ = remove; }
+    void setApplyTVG(bool apply) { apply_tvg_ = apply; }
+    void setGain(double gain) { gain_applied_ = gain; }
+    void setPixelsPerMeter(double ppm) { pixels_per_meter_ = ppm; }
+    void setEnableGrid(bool enable) { enable_fan_grid_ = enable; }
+    void setFlipVertically(bool flip) { flip_vertically_ = flip; }
+
+    /**
+     * @brief Get viewer parameters
+     */
+    bool getRemoveAGC() const { return remove_agc_; }
+    bool getApplyTVG() const { return apply_tvg_; }
+    double getGain() const { return gain_applied_; }
+    double getPixelsPerMeter() const { return pixels_per_meter_; }
+    bool getEnableGrid() const { return enable_fan_grid_; }
+    bool getFlipVertically() const { return flip_vertically_; }
 
 private:
+    std::shared_ptr<Logger> console_log_;
 
-  std::shared_ptr<Logger> console_log_; 
+    // Viewer parameters
+    bool remove_agc_;
+    bool apply_tvg_;
+    double gain_applied_;
+    double pixels_per_meter_;
+    bool enable_fan_grid_;
+    bool flip_vertically_;
 
-  std::shared_ptr<oculus::SonarDriver> sonar_driver_;
-  oculus::AsyncService io_service_;
+    // Window names
+    const std::string window_polar_ = "Oculus Sonar - Polar View";
+    const std::string window_cartesian_ = "Oculus Sonar - Cartesian View";
 
-  void Something(); 
+    /**
+     * @brief Create polar image from ping data
+     */
+    cv::Mat createPolarImage(const oculus::PingMessage::ConstPtr& ping);
 
+    /**
+     * @brief Create Cartesian image from polar image
+     */
+    cv::Mat createCartesianImage(const cv::Mat& polar_image,
+                                  const oculus::PingMessage::ConstPtr& ping);
 };
 
-#endif  // OCULUS_VIEWER
+#endif // OCULUS_VIEWER_HPP

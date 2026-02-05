@@ -37,7 +37,7 @@ This repository contains all the code necessary to build and use the blueprint s
 oculus-ros2-cpp-driver/
 ├── docker/                  # Docker configuration files
 ├── oculus_driver_lib/       # C++ driver library
-├── oculus_app/             # C++ app
+├── oculus_app/              # C++ app
 ├── reference_oculus_sdk/    # Reference sdk code 
 ├── LICENSE
 └── README.md
@@ -127,7 +127,7 @@ make -j4
 
 ### Integrating New Features and Understading the Driver
 
-If you want to add new features or understand the software structure, refer to [Software Strucure Notes](#software-structure-notes) section. 
+If you want to add new features or understand the software structure, <br/> refer to the [Software Strucure Notes](#software-structure-notes) section. 
 
 ## Quick Start
 
@@ -138,146 +138,64 @@ TODO: Describe how to easily launch the ROS2 Driver, visualize the sensor output
 TODO: Describe more in details the driver additional features 
 
 ## Sonar Data Brief Description 
-
-Preliminary notes on how the Oculus M3000d Sonar generate the acoustic images readings.
+TODO: Copy the final version of this documentation part from jazzy branch as soon as finished. 
 
 ### Acoustic Image Formation Process 
-
-Generic high level description of the logic behind acoustic images formation process. 
+TODO: Copy the final version of this documentation part from jazzy branch as soon as finished. 
 
 ### Oculus Sonar Logic
-
-Acoustic image formation process for the **oculus blueprint M3000d** series sonar. The same logic is used by previous version of the M series forward looking sonar, with some changes in the software implementation on the sdk. 
-<br/>(Probably other FLS sensors uses similar workflows)
-
-
-
-
-
+TODO: Copy the final version of this documentation part from jazzy branch as soon as finished. 
 
 ## Software Structure Notes
 
-Software structure of the low level C++ Sonar Driver and the overlay ROS2 Interface. 
+Software structure of the low level C++ Sonar Driver and the simple C++ Interface application.  
 
 ### Low Level Driver (oculus_driver)
 
+
 C++ library to interface with the Sonar Hardware.
 
-Expose classes to connect, configure and read the Sonar data. 
+Expose classes to connect, configure and read the Sonar data.
 
-### ROS2 Driver
 
-ROS2 Jazzy (C++) packages to interface with the Oculus M3000d in a ROS2 infrastructure. 
+### Oculus App
+
+C++ packages to interface with the Oculus M3000d sensor. 
 
 Handling sonar initial configuration and dynamic reconfigure, UDP connection, sensor read, raw sensor read processing, and polar image conversion to cartesian.
 
 Other features will be integrated according to research task requrements. 
 
-### oculus_interface
+### [``OculusApp.hpp``](/oculus_app/include/oculus_app/OculusApp.hpp)
 
-[This package](/oculus_interfaces/) contains the custom ROS2 sonar messages interfaces. <br/>
-It allow to exchange in the ROS network equivalent informatioon to the ones used by the propritary software.
-
-These ROS2 messages reproduce the official oculus sdk messages data structures.
+This handles the interface with the sonar hardware. 
 
 <details close>
 <summary>Implementation Details</summary>
   
 </details>
 
-### oculus_ros2
+### [``OculusViewer.hpp``](/oculus_app/include/oculus_app/OculusViewer.hpp)
 
-[This package](/oculus_ros2/) handles the interface with the sonar hardware and the data processing. 
-
-
-#### [``conversions.hpp``](/oculus_ros2/include/oculus_ros2/conversions.hpp)
-
-This utils code implements conversions from oculus messages to ROS2 messages.
-
-When the ``oculus_sonar_node`` receives the sonar messages from the low level driver instance, it rely on these methods to ROSify them and publish on the ROS network.  
+This class handles the received ping messages to visualize it in an OpenCV window. 
 
 <details close>
 <summary>Implementation Details</summary>
   
 </details>
 
+### [``sonar_utils.hpp``](/oculus_app/include/oculus_app/sonar_utils.hpp)
 
-#### [``oculus_sonar_node``](/oculus_ros2/src/oculus_sonar_node.cpp)
-
-This Node handles the interface with the sonar hardware thorugh an instance of the low level sonar driver class. 
-
-It has the follwoing **main tasks**: 
-- Connect to the sonar via UDP 
-- Sett the initial configuration of the sensor (frequency mode, range, gain, etc..)
-- ROSify sonar measurements and broadcast to the nework 
-- Handle reconfiguartion requests
-
-The sensor configuration is handled by this node ROS parameters, initialized by a config file: [oculus_sonar.yaml](/oculus_ros2/cfg/oculus_sonar.yaml)
-
-The node implements the parameter reconfiguration callback, sending **dynamic reconfiguration** request to the sonar. <br/>
-NOTE: This part is still under development and adjustments.
+This code provides some utils on the sonar data. 
 
 <details close>
 <summary>Implementation Details</summary>
   
 </details>
 
-#### [``sonar_viewer_node``](/oculus_ros2/src/sonar_viewer_node.cpp)
+### [``Logger.hpp``](/oculus_app/include/oculus_app/Logger.hpp)
 
-This Node process the raw sonar data (as bearings-bins matrix) to create a polar and cartesian acoustic image.
-
-It allows to perform physical based pre-processing on the raw data. <br/>
-In the proprietary visualizatiion software (Oculus ViewPoint), as in other sonars, some software logic is used to correct the image stream in a pleasant view. What you see usually is a processed version of the raw acoustic echo. Moreover, also at the retrieval level in the transducers the gain is adapted during the image formation, each bins can be adjusted with a different gain value. <br/>
-
-The process of changing the gain applied on each bins (range) based on echo intensity and other factors is called **Adaptive Gain Control** (AGC). This range-gains are included in the sonar readings. 
-
-
-Due to the resons above, in this node it is possible to decide if retrieving the original raw echo, by "removing" the broadcasted gains of the AGC process. Afterward, custom pre-processing can be applied on retrieved the raw data. <br/>
-The sonar_viewer_node provides a **transmission loss correction**, which apply a time-propagation and water absorption loss gain to the acoustic data. 
-
-The above features are handled by ROS parameters (allwoing also online reconfiguration). <br/>Set ``remove_agc`` to true to override the applied transducer range-gains abd retrieve the raw data. <br/>
-Set ``apply_tvg`` to true to apply the custom physicial correction gain. 
-
-**WARNING**<br/>
-Be carefully on how you combine the two pre-processing features. <br/>
-By applying the TVG without removing the AGC (remove_agc = false, apply_tvg = true) the sensor readings will be satured by applying correction gain twice (both AGC and TL).  
-
-
-<details close>
-<summary>Implementation Details</summary>
-  
-</details>
-
-#### [``sonar_point_cloud_node``](/oculus_ros2/src/sonar_point_cloud_node.cpp)
-
-This Node publishes a point cloud computed from the cartesian sonar image. <br/>
-The points are selcted as the ones with pixel intensity (echo intensity) higher than a specified user threshold. 
-Due to the acoustic image formation model, this naive solution form a point cloud in sonar zero elevation plane (where the sonar frustum is projected). 
-
-<details close>
-<summary>Implementation Details</summary>
-  
-</details>
-
-#### [``sonar_state_estimation_node``](/oculus_ros2/src/sonar_state_estimation_node.cpp)
-
-This Node exploits the proprioceptive sonar information (depth and orientation) coming from a depth sensor and an AHRS.
-
-After the sensor readings, the pose (depth position + orientation) is published as a ROS TransForm frame (TF). <br/>
-This allow a visualization of the sonar frame in rviz (a 3D textured model and a sensor URDF description is defined in the package)
-
-
-<details close>
-<summary>Implementation Details</summary>
-  
-</details>
-
-#### [``sonar_saver_node``](/oculus_ros2/src/sonar_saver_node.cpp)
-
-This Node should be runned to save **all** the cartesian and polar acoustic images inside of a specified output directory. 
-
-It uses the ROS cv_bridge utils to convert ROS images in the OpenCV format, ready to be saved in the desired image compression format.  
-
+This class provides some basic logging utilities. 
 
 <details close>
 <summary>Implementation Details</summary>

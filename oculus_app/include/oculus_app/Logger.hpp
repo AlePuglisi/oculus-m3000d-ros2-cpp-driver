@@ -1,3 +1,6 @@
+#ifndef LOGGER_HPP
+#define LOGGER_HPP
+
 // Logging System
 #include <ctime>
 #include <fstream>
@@ -18,3 +21,5 @@ class Logger {
 
         void log(LogLevel level, const string& message); 
 }; 
+
+#endif // LOGGER_HPP
