@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  oculus_sonar:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: oculus_ros2:jazzy
+    container_name: oculus_sonar_driver
+    
+    # Network configuration for sonar ethernet connection
+    network_mode: host
+    
+    # Privileged mode for network access
+    privileged: true
+    
+    # Environment variables for display (X11)
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    
+    # Volume mounts
+    volumes:
+      # X11 socket for GUI
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # Shared memory for RViz
+      - /dev/shm:/dev/shm
+      # Optional: mount your workspace for development
+      - ./config:/ros2_ws/config:ro
+      # Optional: save data/logs
+      - ./logs:/ros2_ws/logs
+      
+    # Devices (if needed)
+    devices:
+      - /dev/dri:/dev/dri  # GPU access for visualization
+    
+    # Keep container running
+    stdin_open: true
+    tty: true
+    
+    # Command to run (can be overridden)
+    command: bash
+    
+    # Restart policy
+    restart: unless-stopped

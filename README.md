@@ -4,9 +4,9 @@ ROS2 (Jazzy) Driver for the Blueprint subsea Oculus M3000d Sonar.
 
 ###  Software "Development": Updating Extisting Drivers
 
-This package is adapted and extended from the M1200d [ROS2 Driver](https://github.com/godardma/oculus_ros2/tree/main) by ENSTA Bretagne Robotics, with the underlying low level [Sonar Interface](https://github.com/ENSTABretagneRobotics/oculus_driver)
+This package is adapted and extended from the M1200d [ROS2 Driver](https://github.com/godardma/oculus_ros2/tree/main) by ENSTA Bretagne Robotics, and the underlying low level Driver [Sonar Interface](https://github.com/ENSTABretagneRobotics/oculus_driver)
 
-The mentioned M1200d software has been updated for the M3000d from the blueye proprietary **oculus_sdk** <br/>
+The mentioned M1200d software has been updated for the M3000d using the blueye proprietary **oculus_sdk** <br/>
 (shared by the technical support team).
 
 ## Requirements
@@ -18,6 +18,7 @@ This ROS2 metapackage was developed and tested using:
 
 ## Documentation Contents
 
+- [Repository Structure](#repository-structure)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Extensive Usage Documentation](#extensive-usage-documentation)
@@ -25,11 +26,110 @@ This ROS2 metapackage was developed and tested using:
 - [Software Structure Notes](#software-structure-notes)
 - [Problems and Possible Improvements](#problems-and-possible-improvements)
 
+## Repository Structure
+
+This repository contains all the code necessary to build and use the blueprint subsea oculus M3000d sonar driver. Moreover, it include the original proprietary sdk (the one used in the official blueprint ViewPointv2) as reference code. Note in fact that the sdk code is not used during the building process. 
+
+### Folder Structure
+
+```
+oculus-ros2-cpp-driver/
+├── docker/                  # Docker configuration files
+├── oculus_driver_lib/       # C++ driver library
+├── oculus_ros2/             # ROS2 packages
+│   ├── oculus_interfaces/   # Message/service 
+│   ├── oculus_ros2/         # Main driver package
+│   └── Data/                # Optional data directory
+├── reference_oculus_sdk/    # Reference sdk code 
+├── LICENSE
+└── README.md
+```
+
+
 ## Installation 
 
-TODO: Rebase the repo with the low level c++ driver and eplxain step by step: 
-1) How to install the oculus_driver 
-2) How to build oculus_ros2
+### 0) Setting Up the Workspace
+
+1. **Install and set up [ROS2 jazzy](http://wiki.ros.org/ROS/Installation)**
+
+2. **Create the ros2 workspace**
+
+    ```
+    mkdir sonar_ws & cd sonar_ws
+    ```
+3. **Create src directory and build**
+    ```
+    mkdir src
+    ```
+    ```
+    colcon build 
+    ```
+
+4. **Clone or Copy this repo in /src**
+    ```
+    cd src
+    git clone https://github.com/AlePuglisi/oculus-ros2-cpp-driver.git
+    ```
+
+5. **Move in the driver dircetory for the next steps**
+    ```
+    cd oculus-ros2-cpp-driver
+    ```
+
+### 1) Install the oculus_driver 
+
+1. **Install dependencies**
+
+    ```
+    sudo apt-get install -y libboost-system-dev libboost-thread-dev
+    ```
+
+2. **Compile the oculus_driver library**
+
+    This library follows a standard CMake compilation procedure.
+
+
+    From the git cloned directory of this driver, move to the lib directory 
+
+    ```
+    cd oculus_driver_lib
+    ```
+
+    Create a build directory :
+
+    ```
+    mkdir build && cd build
+    ```
+
+3. **Compile the oculus_dirver library**
+
+    Generate your build system with CMake, compile and install :
+
+    ```
+    cmake ..
+    make -j4
+    ```
+
+4. **Install the driver** 
+
+    ```
+    sudo make -j4 install
+    ```
+
+### 2) How to Build oculus_ros2
+
+If all the steps above compiled without errors, you currently have a ros2 workspace ready to be built and the oculus_driver library properly installed. 
+
+The ROS2 packages (oculus_interface + oculus_ros2) building is the usual one.
+
+Be sure to be in the workspace root directory (e.g. ~/sonar_ws) 
+
+```
+colcon build 
+```
+
+
+### Integrating New Features and Understading the Driver
 
 If you want to add new features or understand the software structure, refer to [Software Strucure Notes](#software-structure-notes) section. 
 
