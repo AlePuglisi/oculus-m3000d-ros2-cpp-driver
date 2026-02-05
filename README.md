@@ -181,7 +181,7 @@ Other features will be integrated according to research task requrements.
 
 ### oculus_interface
 
-[This package](/oculus_interfaces/) contains the custom ROS2 sonar messages interfaces. <br/>
+[This package](OCULUS_ROS2/oculus_interfaces/) contains the custom ROS2 sonar messages interfaces. <br/>
 It allow to exchange in the ROS network equivalent informatioon to the ones used by the propritary software.
 
 These ROS2 messages reproduce the official oculus sdk messages data structures.
@@ -193,7 +193,7 @@ These ROS2 messages reproduce the official oculus sdk messages data structures.
 
 ### oculus_ros2
 
-[This package](/oculus_ros2/) handles the interface with the sonar hardware and the data processing. 
+[This package](OCULUS_ROS2/oculus_ros2/) handles the interface with the sonar hardware and the data processing. 
 
 
 #### [``conversions.hpp``](/OCULUS_ROS2/oculus_ros2/include/oculus_ros2/conversions.hpp)
