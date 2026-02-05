@@ -112,6 +112,17 @@ oculus-ros2-cpp-driver/
     make -j4
     ```
 
+    <details close>
+    <summary>With More Explicit Building Commands</summary>
+    ```
+        cmake -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=/usr/local \
+            .. && \
+        make -j$(nproc) && \
+        make install
+    ```
+    </details>
+
 4. **Install the driver** 
 
     ```

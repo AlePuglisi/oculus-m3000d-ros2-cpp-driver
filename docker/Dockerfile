@@ -2,7 +2,7 @@
 # Supports Ubuntu 24.04, ROS2 Jazzy, with GUI support for RViz
 
 # Base stage with ROS2 Jazzy
-FROM osrf/ros:jazzy-desktop-full AS base
+FROM ros:jazzy AS base
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
@@ -24,6 +24,11 @@ RUN apt-get update && apt-get install -y \
     net-tools \
     iputils-ping \
     vim \
+    ros-jazzy-rviz2 \
+    ros-jazzy-rqt \
+    ros-jazzy-rqt-reconfigure \
+    mesa-utils \
+    x11-apps \
     && rm -rf /var/lib/apt/lists/*
 
 # Build stage for oculus_driver (C++ low-level driver)
@@ -79,9 +84,7 @@ FROM base AS runtime
 RUN apt-get update && apt-get install -y \
     libboost-system1.83.0 \
     libboost-thread1.83.0 \
-    libopencv-core4.6d \
-    libopencv-imgproc4.6d \
-    libopencv-highgui4.6d \
+    libopencv-dev \
     libeigen3-dev \
     net-tools \
     iputils-ping \
