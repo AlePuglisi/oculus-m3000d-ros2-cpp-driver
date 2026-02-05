@@ -57,8 +57,8 @@ RUN ldconfig
 WORKDIR /ros2_ws
 
 # Copy your ROS2 packages from the local project structure
-# The oculus_ros2 directory contains both oculus_interfaces and oculus_ros2 packages
-COPY ../oculus_ros2 src/oculus_ros2
+# The OCULUS_ROS2 directory contains both oculus_interfaces and oculus_ros2 packages
+COPY ../OCULUS_ROS2 src/oculus_ros2
 
 # Install ROS2 dependencies
 RUN apt-get update && \

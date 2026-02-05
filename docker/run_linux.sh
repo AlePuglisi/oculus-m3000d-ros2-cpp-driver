@@ -38,7 +38,7 @@ echo ""
 # Build the image if needed
 if ! docker images | grep -q "oculus_ros2"; then
     echo "Building Docker image..."
-    docker-compose build
+    docker compose build
 fi
 
 # Function to clean up on exit
@@ -52,7 +52,7 @@ trap cleanup EXIT
 
 # Run the container
 echo "Starting Docker container..."
-docker-compose up -d
+docker compose up -d
 
 # Attach to the container
 echo ""
@@ -64,5 +64,5 @@ docker exec -it oculus_sonar_driver bash
 read -p "Stop the container? (y/N): " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    docker-compose down
+    docker compose down
 fi

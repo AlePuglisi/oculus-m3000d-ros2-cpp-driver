@@ -53,11 +53,11 @@ REM Build the image if it doesn't exist
 docker images | findstr oculus_ros2 >nul
 if %ERRORLEVEL% neq 0 (
     echo Building Docker image...
-    docker-compose build
+    docker compose build
 )
 
 REM Run the container
-docker-compose up -d
+docker compose up -d
 
 REM Attach to the container
 echo.
