@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="oculus_sonar" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <material name="gray">
+        <color rgba="0.3 0.3 0.3 1"/>
+    </material>
+
+    <link name="world"></link>
+
+    <link name="sonar_x"></link>
+    <link name="sonar_y"></link>
+    <link name="sonar_z"></link>
+    <link name="sonar_roll"></link>
+    <link name="sonar_pitch"></link>
+
+    <joint name="world_x_sonar" type='prismatic'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="world"/>
+        <child link="sonar_x"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-5" upper="5" velocity="100" effort="100"/> 
+    </joint>
+
+    <joint name="world_y_sonar" type='prismatic'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="sonar_x"/>
+        <child link="sonar_y"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-5" upper="5" velocity="100" effort="100"/> 
+    </joint>
+
+    <joint name="world_z_sonar" type='prismatic'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="sonar_y"/>
+        <child link="sonar_z"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-5" upper="5" velocity="100" effort="100"/> 
+    </joint>
+
+    <joint name="world_roll_sonar" type='revolute'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="sonar_z"/>
+        <child link="sonar_roll"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-${pi}" upper="${pi}" velocity="100" effort="100"/> 
+    </joint>
+
+    <joint name="world_pitch_sonar" type='revolute'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="sonar_roll"/>
+        <child link="sonar_pitch"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-${pi}" upper="${pi}" velocity="100" effort="100"/> 
+    </joint>
+
+    <joint name="world_yaw_sonar" type='revolute'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="sonar_pitch"/>
+        <child link="sonar"/>
+        <axis xyz="0 0 1"/>
+        <limit lower="-${pi}" upper="${pi}" velocity="100" effort="100"/> 
+    </joint>
+
+    <link name="sonar">
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 1.57" />
+        <geometry>
+          <mesh
+            filename="package://oculus_ros2/mesh/oculus_sonar.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+        <material name="gray"/>
+      </visual>
+    </link>
+</robot>

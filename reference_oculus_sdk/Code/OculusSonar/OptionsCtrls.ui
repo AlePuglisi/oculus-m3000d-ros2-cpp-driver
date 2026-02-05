@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OptionsCtrls</class>
+ <widget class="QWidget" name="OptionsCtrls">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>226</width>
+    <height>76</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="bpLogo">
+   <property name="geometry">
+    <rect>
+     <x>156</x>
+     <y>5</y>
+     <width>66</width>
+     <height>66</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/BluePrintSubsea_Icon_Dark_RGB.png</normaloff>:/BluePrintSubsea_Icon_Dark_RGB.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="oculusLogo">
+   <property name="geometry">
+    <rect>
+     <x>4</x>
+     <y>5</y>
+     <width>151</width>
+     <height>66</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Logo_Oculus_256.png</normaloff>:/Logo_Oculus_256.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>128</width>
+     <height>48</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../Media/media.qrc"/>
+ </resources>
+ <connections/>
+</ui>

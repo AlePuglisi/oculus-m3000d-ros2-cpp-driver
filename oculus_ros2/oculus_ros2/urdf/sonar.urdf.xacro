@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="oculus_sonar" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <material name="gray">
+        <color rgba="0.3 0.3 0.3 1"/>
+    </material>
+
+    <!-- <link name="world"></link>
+
+    <joint name="world_sonar" type='fixed'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="world"/>
+        <child link="sonar"/>
+    </joint> -->
+
+    <link name="sonar">
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 1.57" />
+        <geometry>
+          <mesh
+            filename="package://oculus_ros2/mesh/sonar_oculus_lowpoly.obj" scale="1.0 1.0 1.0"/>
+        </geometry>
+        <material name="sonar">
+            <texture filename="package://oculus_ros2/mesh/oculus_texture.png"/>
+        </material>
+      </visual>
+    </link>
+    
+</robot>

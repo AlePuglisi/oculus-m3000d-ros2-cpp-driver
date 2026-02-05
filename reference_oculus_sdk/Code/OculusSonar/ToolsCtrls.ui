@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ToolsCtrls</class>
+ <widget class="QWidget" name="ToolsCtrls">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>286</width>
+    <height>97</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="snapshot">
+   <property name="geometry">
+    <rect>
+     <x>61</x>
+     <y>40</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Take a snapshot of the Oculus display (Shortcut: P)</string>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Tools_Snapshot_96.png</normaloff>:/Tools_Snapshot_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="palette">
+   <property name="geometry">
+    <rect>
+     <x>117</x>
+     <y>40</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Sets the colour palette used by the Oculus display (Shortcut: 1-6)</string>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Tools_Palette_96.png</normaloff>:/Tools_Palette_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="measure">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>40</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Take a measurement (Shortcut: M)</string>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Tools_Measure_96.png</normaloff>:/Tools_Measure_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="flipHoriz">
+   <property name="geometry">
+    <rect>
+     <x>174</x>
+     <y>40</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Flip the Oculus display horizontally (Shortcut: H)</string>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Tools_FlipHoriz_96.png</normaloff>:/Tools_FlipHoriz_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="flipVert">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>40</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Flip the Oculus display vertically (Shortcut: V)</string>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Tools_FlipVert_96.png</normaloff>:/Tools_FlipVert_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="snapshotInfo">
+   <property name="geometry">
+    <rect>
+     <x>44</x>
+     <y>10</y>
+     <width>231</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Snapshot saved!</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../Media/media.qrc"/>
+ </resources>
+ <connections/>
+</ui>

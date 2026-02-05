@@ -1,0 +1,29 @@
+
+# remove_agc correct for automatic sonar gain, applied by default at range level to compensate range-dependent signal loss 
+# apply_tvg  use a physically accurate gain (geometric + absorption loss)
+
+# remove_agc = tre, apply_tvg = true
+# scientifically accurate reflectivity for quantitative analysis 
+
+# remove_agc = true, apply_tvg = false
+# more uniform than raw data, preserving some range information
+
+# remove_agc = false, apply_tvg = false
+# keep raw data from the sonar image 
+# in this case, be carefull on the "gain" value
+
+# remove_agc = false, apply_tvg = true
+# double compensation, saturation.. NEVER ! 
+
+/**:
+  ros__parameters:
+
+    remove_agc: true
+
+    apply_tvg: true
+    
+    gain: 3000.
+
+    enable_fan_grid: false
+
+    flip_vertically: true

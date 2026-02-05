@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OnlineCtrls</class>
+ <widget class="QWidget" name="OnlineCtrls">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>423</width>
+    <height>212</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>10</pointsize>
+    <weight>75</weight>
+    <bold>true</bold>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QLabel" name="gainValue">
+   <property name="geometry">
+    <rect>
+     <x>331</x>
+     <y>120</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>0%</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="rangeValue">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>69</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>16</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>0m</string>
+   </property>
+  </widget>
+  <widget class="QSlider" name="rangeSlider">
+   <property name="geometry">
+    <rect>
+     <x>74</x>
+     <y>71</y>
+     <width>241</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Slide to change the range (Shortcut W: increase, S: decrease)</string>
+   </property>
+   <property name="pageStep">
+    <number>1</number>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="tickInterval">
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>56</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Slider changes the range of the Oculus</string>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Live_Ctrl_Range_96.png</normaloff>:/Live_Ctrl_Range_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>107</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Slider changes the gain of the Oculus</string>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Live_Ctrl_Gain_96.png</normaloff>:/Live_Ctrl_Gain_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QSlider" name="gainSlider">
+   <property name="geometry">
+    <rect>
+     <x>74</x>
+     <y>122</y>
+     <width>241</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Slide to change the gain (Shortcut: D increase, A decrease)</string>
+   </property>
+   <property name="value">
+    <number>50</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="tickInterval">
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="low">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>5</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Low frequency, navigation mode</string>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Live_Ctrl_FreqLow_96.png</normaloff>:/Live_Ctrl_FreqLow_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="high">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>5</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>High frequency, inspection mode</string>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Live_Ctrl_FreqHigh_96.png</normaloff>:/Live_Ctrl_FreqHigh_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QSlider" name="freqSlider">
+   <property name="geometry">
+    <rect>
+     <x>74</x>
+     <y>20</y>
+     <width>61</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Slide to adjust the operating frequency of the Oculus (Shortcut: Q)</string>
+   </property>
+   <property name="maximum">
+    <number>1</number>
+   </property>
+   <property name="value">
+    <number>1</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="tickInterval">
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="record">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>158</y>
+     <width>50</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Record the current Oculus data to a log file (Shortcut: R)</string>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Live_Ctrl_RecordRed_96.png</normaloff>:/Live_Ctrl_RecordRed_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="fileName">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>174</y>
+     <width>281</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="freq">
+   <property name="geometry">
+    <rect>
+     <x>214</x>
+     <y>20</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="text">
+    <string>750kHz</string>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../Media/media.qrc"/>
+ </resources>
+ <connections/>
+</ui>

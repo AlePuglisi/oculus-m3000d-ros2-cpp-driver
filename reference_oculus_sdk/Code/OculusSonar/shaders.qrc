@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../RmGl/Shaders/palette.fsh</file>
+        <file>../RmGl/Shaders/alpha.fsh</file>
+        <file>../RmGl/Shaders/colourkey.fsh</file>
+        <file>../RmGl/Shaders/luminance.fsh</file>
+        <file>../RmGl/Shaders/solid.fsh</file>
+        <file>../RmGl/Shaders/solid.vsh</file>
+        <file>../RmGl/Shaders/texture.fsh</file>
+        <file>../RmGl/Shaders/texture.vsh</file>
+    </qresource>
+</RCC>

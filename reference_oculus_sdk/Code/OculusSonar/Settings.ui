@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Settings</class>
+ <widget class="QDialog" name="Settings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>362</width>
+    <height>374</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TabWidget</string>
+  </property>
+  <property name="currentIndex" stdset="0">
+   <number>0</number>
+  </property>
+  <widget class="QWidget" name="tab" native="true">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>314</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>314</width>
+     <height>0</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabs">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>100</y>
+     <width>311</width>
+     <height>261</height>
+    </rect>
+   </property>
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
+     <string>Tab 1</string>
+    </attribute>
+   </widget>
+   <widget class="QWidget" name="tab_3">
+    <attribute name="title">
+     <string>Tab 2</string>
+    </attribute>
+   </widget>
+  </widget>
+  <widget class="QWidget" name="tab" native="true">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

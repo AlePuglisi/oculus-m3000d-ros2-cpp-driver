@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EnvCtrls</class>
+ <widget class="QWidget" name="EnvCtrls">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>193</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLineEdit" name="speedOfSound">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>118</y>
+     <width>65</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Velocity of sound in metres per second</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="freshWater">
+   <property name="geometry">
+    <rect>
+     <x>34</x>
+     <y>58</y>
+     <width>99</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Fresh Water</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="saltWater">
+   <property name="geometry">
+    <rect>
+     <x>34</x>
+     <y>88</y>
+     <width>89</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Salt Water</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="useVelocity">
+   <property name="geometry">
+    <rect>
+     <x>34</x>
+     <y>118</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Use Velocity</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="svUnits">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>120</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>m/s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>20</y>
+     <width>201</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Speed of sound:</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

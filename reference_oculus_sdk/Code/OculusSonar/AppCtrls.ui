@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AppCtrls</class>
+ <widget class="QWidget" name="AppCtrls">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>142</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="navy">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>50</y>
+     <width>96</width>
+     <height>64</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Navy colour scheme</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Settings_Theme_DarkBlue_96.png</normaloff>:/Settings_Theme_DarkBlue_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="dark">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>50</y>
+     <width>96</width>
+     <height>64</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Dark colour scheme</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Settings_Theme_DarkGrey_96.png</normaloff>:/Settings_Theme_DarkGrey_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="light">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>340</y>
+     <width>96</width>
+     <height>64</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/Media/Settings_Theme_LightGrey_96.png</normaloff>:/Media/Settings_Theme_LightGrey_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>20</y>
+     <width>131</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Colour theme:</string>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../Media/media.qrc"/>
+ </resources>
+ <connections/>
+</ui>

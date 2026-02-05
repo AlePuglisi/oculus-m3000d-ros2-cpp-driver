@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ModeCtrls</class>
+ <widget class="QWidget" name="ModeCtrls">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>277</width>
+    <height>76</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="connect">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>5</y>
+     <width>66</width>
+     <height>66</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Connect to an Oculus sonar (Shortcut: C)</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Mode_Live_96.png</normaloff>:/Mode_Live_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="open">
+   <property name="geometry">
+    <rect>
+     <x>72</x>
+     <y>5</y>
+     <width>66</width>
+     <height>66</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Open a log file for review (Shortcut: O)</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Mode_Review_96.png</normaloff>:/Mode_Review_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="config">
+   <property name="geometry">
+    <rect>
+     <x>206</x>
+     <y>5</y>
+     <width>66</width>
+     <height>66</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Show the device configuration window (Shortcut: X)</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="../Media/media.qrc">
+     <normaloff>:/Mode_Settings_Device_96.png</normaloff>:/Mode_Settings_Device_96.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>48</width>
+     <height>48</height>
+    </size>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../Media/media.qrc"/>
+ </resources>
+ <connections/>
+</ui>

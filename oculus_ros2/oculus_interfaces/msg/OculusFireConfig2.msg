@@ -1,0 +1,14 @@
+OculusHeader head
+uint8   master_mode
+uint8   ping_rate
+uint8   network_speed
+uint8   gamma_correction
+uint8   flags
+float64 range
+float64 gain_percent
+float64 speed_of_sound
+float64 salinity
+uint32 ext_flags
+uint32[2] reserved0
+uint32 beacon_locator_frequency
+uint32[5] reserved1

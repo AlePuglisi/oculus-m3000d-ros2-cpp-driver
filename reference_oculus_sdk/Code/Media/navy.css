@@ -1,0 +1,303 @@
+/*
+Default.css
+Default stylesheet for the Oculus Viewer software
+
+Title Colour: #2C2C2C
+Primary Colour: #000528
+Secondary Colour:
+Accent Colour: #1E90FF
+Disabled Colour: #515151
+
+*/
+
+* {
+	font-family: Arial;
+	font-size:9pt;
+}
+
+/* QLabel */
+QLabel { 
+	color: white; 
+	font-size: 16px;
+	font-family: Arial;
+	font-weight: Bold;
+}
+/*
+QLabel#serialNo {
+	font-size:10px;
+	font-weight:normal;
+}*/
+
+QLabel#version {
+	color: #888888; 
+}
+ 
+/* QPushButton */
+QPushButton { 
+	background-color: rgba(0, 0, 0, 0); 
+	color: #FFFFFF; 
+}
+  
+QPushButton:hover { 
+	background-color: rgba(0, 0, 0, 0);	
+	border:2px solid #1E90FF;
+	border-radius:6px; 
+}
+
+QPushButton:checked { 
+	background-color: #1E90FF;
+	border-radius:6px;
+}
+
+QPushButton:pressed {
+	background-color: #1E90FF;
+}
+
+
+QPushButton:disabled {
+	background-color: #515151; 
+	border-radius: 6px;
+}
+
+QPushButton#oculusLogo {
+	padding-top: 10px;
+}
+
+QPushButton#oculusLogo:pressed, QPushButton#bpLogo:pressed {
+	background-color: none;
+}
+
+QPushButton#oculusLogo:hover, QPushButton#bpLogo:hover {
+	border: 0px;
+}
+
+QPushButton#seperator:hover {
+	border-radius: 0px;
+}
+
+/* QSlider */
+QSlider::groove:horizontal { 
+	background: #898989; 
+	border: 0px solid #424242; 
+	height: 10px; 
+	border-radius: 4px;
+}
+
+/*
+QSlider::sub-page:horizontal { 
+	background-color: #1E90FF;
+	border: 0px solid #424242; 
+	height: 10px; 
+	border-radius: 4px; 
+}*/
+
+QSlider::add-page:horizontal { 
+	/*background: #898989; */
+	border: 0px solid #424242; 
+	height: 10px; 
+	border-radius: 4px;
+}
+
+QSlider::handle:horizontal { 
+	background-color: #424242; 
+	border: 2px solid white; 
+	width: 16px; 
+	height: 20px; 
+	line-height: 20px; 
+	margin-top: -5px; 
+	margin-bottom: -5px; 
+	border-radius: 10px; 
+}
+
+QSlider::handle:horizontal:hover { 
+	background-color: #1E90FF;
+	border-radius: 10px;
+}
+
+QSlider::sub-page:horizontal:disabled { 
+	background: #bbb;
+}
+
+QSlider::add-page:horizontal:disabled { 
+	background: #eee;
+}
+
+QSlider::handle:horizontal:disabled { 
+	background: #eee; 
+	border-radius: 4px; 
+}
+
+QSlider#freqSlider::sub-page:horizontal { 
+	background: #898989; 
+	border: 0px solid #424242; 
+	height: 10px; 
+	border-radius: 4px; 
+}
+
+QSlider#speedSlider::sub-page:horizontal { 
+	background: #898989; 
+	border: 0px solid #424242; 
+	height: 10px; 
+	border-radius: 4px;
+}
+
+/* QListWidget */
+QListWidget { 
+	background-color: #000528; 
+	border:0px; 
+	show-decoration-selected: 0; 
+}
+
+QListWidget::item { 
+	color: #FFFFFF; 
+	border:1px solid #000528; 
+}
+
+QListWidget::item:selected { 
+	background-color: #1E90FF;
+	border: 1px solid #1E90FF;
+	border-radius: 6px;
+}
+
+QListWidget::item:hover { 
+	border: 1px solid #1E90FF;
+	border-radius: 6px; 
+}
+
+/* QMainWindow */
+QMainWindow#MainWindow {
+	background-color: #000528;
+}
+
+/* QDialog */
+QDialog {
+	background-color: #000528;
+}
+
+QDialog#DeviceForm QLabel {
+	font-weight: normal;
+	font-size: 9pt;
+}
+
+QDialog#InfoForm {
+	background-color: #2C2C2C;
+	border: 2px solid #515151;
+}
+
+QDialog#ExportForm {
+	background-color: #2C2C2C;
+	border: 2px solid #515151;
+}
+
+/* QLineEdit */
+QLineEdit {
+	border: 0px;
+	background-color: #000448;
+	border-radius: 4px;
+	line-height: 12pt;
+	color: white;
+}
+
+QLineEdit:disabled {
+	color: #515151;
+}
+
+QLineEdit:focus {
+	border: 1px solid #1E90FF;
+	border-radius: 4px;
+}
+
+/* QDialogButtonBox */
+QDialogButtonBox {
+	border-top:1px solid #515151;
+}
+
+/* OpenGL */
+RmGlWidget {
+	background-color: #000528;
+}
+
+/* QMessageBox */
+QMessageBox {
+	
+}
+
+QMessageBox > QLabel {
+	
+}
+
+/* QTabWidget */
+QTabWidget::pane {
+	background-color: #515151;
+}
+
+QTabWidget > QWidget {
+	background-color: #000528;
+}
+
+QTabBar::tab {
+	background-color: #000528;
+	padding:3px 10px;
+	color:white;
+}
+
+QTabBar::tab:selected {
+	background-color: #1E90FF;
+	border: 1px solid #1E90FF;
+	padding:3px 10px;
+	border-radius:4px 4px 0px 0px;
+}
+
+/* QRadioButton */
+QRadioButton {
+	color:white;
+}
+
+QRadioButton::indicator {
+	background-color: #424242; 
+	border: 2px solid white; 
+	border-radius:6px; 
+}
+
+QRadioButton::indicator:checked {
+	background-color: #1E90FF;
+	border-radius: 6px;
+}
+
+/* QFrame */
+QMainWindow#MainWindow QWidget#frame {
+	background-color: #000448;
+}
+
+/* QLine */
+QFrame[frameShape="4"] {
+	border-top: 1px solid #898989;
+}
+
+/* QProgressBar */
+QProgressBar {
+	background-color: #515151;
+	border:2px solid #515151;
+	border-radius:6px; 
+	color: rgb(255,255,255);
+	text-align:center;
+}
+
+QProgressBar::chunk {
+	background-color: #1E90FF;
+	border-radius:2px;
+	width: 10px;
+	margin:0.5px;
+}
+
+
+QDialog#HelpForm QFrame {
+	background-color: #000528;
+}
+
+QDialog#HelpForm QFrame QLabel {
+	font-weight: normal;
+	color: #DDDDDD;
+	font-size: 9pt;
+	background-color: #000528;
+}
