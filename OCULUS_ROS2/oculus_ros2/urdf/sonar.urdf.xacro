@@ -17,7 +17,7 @@
       <visual>
         <origin
           xyz="0 0 0"
-          rpy="0 0 1.57" />
+          rpy="${pi} 0.0 0.0" />
         <geometry>
           <mesh
             filename="package://oculus_ros2/mesh/sonar_oculus_lowpoly.obj" scale="1.0 1.0 1.0"/>

@@ -4,7 +4,7 @@ SonarPointCloud::SonarPointCloud()
     : Node("sonar_point_cloud")
 {
     // Declare parameters
-    this->declare_parameter<double>("pixels_per_meter", 50.0);
+    this->declare_parameter<double>("pixels_per_meter", 250.0);
     this->declare_parameter<int>("intensity_threshold", 125);
     this->declare_parameter<bool>("use_16bit", true);
     this->declare_parameter<double>("intensity_threshold_16bit", 32000.0);

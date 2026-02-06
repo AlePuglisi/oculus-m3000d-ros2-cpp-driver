@@ -42,7 +42,7 @@ SonarViewer::SonarViewer()
     this->declare_parameter<double>("gain", 3000.);
     this->declare_parameter<bool>("enable_fan_grid", true);
     this->declare_parameter<bool>("flip_vertically", true);
-    this->declare_parameter<double>("pixels_per_meter", 100.0);
+    this->declare_parameter<double>("pixels_per_meter", 250.0);
 
     // Initiaize node attributes from parameters
     this->remove_agc_ = this->get_parameter("remove_agc").as_bool();

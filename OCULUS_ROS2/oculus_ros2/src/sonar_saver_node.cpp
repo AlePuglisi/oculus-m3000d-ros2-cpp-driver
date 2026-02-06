@@ -4,7 +4,7 @@ SonarSaver::SonarSaver()
     : Node("sonar_saver")
 {
     // Declare parameters
-    this->declare_parameter<double>("pixels_per_meter", 50.0);
+    this->declare_parameter<double>("pixels_per_meter", 250.0);
 
     // Get parameters
     this->pixels_per_meter_ = this->get_parameter("pixels_per_meter").as_double();
