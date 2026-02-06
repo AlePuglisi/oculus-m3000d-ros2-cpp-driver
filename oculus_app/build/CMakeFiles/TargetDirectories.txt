@@ -1,3 +1,0 @@
-/home/ale/sonar_ws/src/oculus-ros2-cpp-driver/oculus_app/build/CMakeFiles/oculus_app.dir
-/home/ale/sonar_ws/src/oculus-ros2-cpp-driver/oculus_app/build/CMakeFiles/edit_cache.dir
-/home/ale/sonar_ws/src/oculus-ros2-cpp-driver/oculus_app/build/CMakeFiles/rebuild_cache.dir
