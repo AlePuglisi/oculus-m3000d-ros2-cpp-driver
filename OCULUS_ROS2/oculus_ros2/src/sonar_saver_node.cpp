@@ -12,13 +12,13 @@ SonarSaver::SonarSaver()
     //RCLCPP_INFO(this->get_logger(), "Sonar Saver Parameters:");
 
     ping_subscriber_ = this->create_subscription<oculus_interfaces::msg::Ping>(
-        "ping", 1, std::bind(&SonarSaver::ping_callback_, this, std::placeholders::_1));
+        "sonar/ping", 1, std::bind(&SonarSaver::ping_callback_, this, std::placeholders::_1));
     
     cartesian_image_subscriber_ = this->create_subscription<sensor_msgs::msg::Image>(
-        "fan_image", 1, std::bind(&SonarSaver::cartesian_image_callback_, this, std::placeholders::_1));
+        "sonar/fan_image/now", 1, std::bind(&SonarSaver::cartesian_image_callback_, this, std::placeholders::_1));
 
     polar_image_subscriber_ = this->create_subscription<sensor_msgs::msg::Image>(
-        "rtheta_image", 1, std::bind(&SonarSaver::polar_image_callback_, this, std::placeholders::_1));
+        "sonar/rtheta_image/now", 1, std::bind(&SonarSaver::polar_image_callback_, this, std::placeholders::_1));
 
     callback_handle_ = this->add_on_set_parameters_callback(
         std::bind(&SonarSaver::parametersCallback, this, std::placeholders::_1));

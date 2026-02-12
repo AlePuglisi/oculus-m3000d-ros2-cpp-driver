@@ -67,8 +67,9 @@ def generate_launch_description():
             ("ping", "ping"),
             ("temperature", "temperature"),
             ("pressure", "pressure"),
+            ('rtheta_image', 'rtheta_image/now'),
         ],
-        output="screen",
+        output="screen", 
     )
 
     sonar_viewer_node = Node(
@@ -79,7 +80,8 @@ def generate_launch_description():
         namespace="sonar",
         output="screen",
         remappings=[
-            ('/fan_image', '/fan_image/now'),
+            ('rtheta_image', 'rtheta_image/now'),
+            ('fan_image', 'fan_image/now'),
         ]
     )
 
@@ -90,7 +92,8 @@ def generate_launch_description():
         namespace="sonar",
         output="screen",
         remappings=[
-            ('/fan_image', '/fan_image/now'),
+            ('fan_image', 'fan_image/now'),
+            ('rtheta_image', 'rtheta_image/now'),
         ]
     )
 
@@ -101,6 +104,9 @@ def generate_launch_description():
         parameters=[point_cloud_config],
         namespace="sonar",
         output="screen",
+        remappings=[
+            ('sonar_point_cloud', 'sonar_point_cloud/now'),
+        ]
     )
 
     sonar_state_estimation_node = Node(
@@ -131,7 +137,7 @@ def generate_launch_description():
             namespace='',
             executable='rviz2',
             name='rviz2',
-            arguments=['-d' + os.path.join(get_package_share_directory('oculus_ros2'), 'cfg', 'oculus.rviz')]
+            arguments=['-d' + os.path.join(get_package_share_directory('oculus_ros2'), 'cfg', 'oculus_bag.rviz')]
         )
     
     description_path = get_package_share_directory('oculus_ros2')
@@ -139,12 +145,22 @@ def generate_launch_description():
     xacro_path = os.path.join(description_path, "urdf", "sonar.urdf.xacro")
     robot_description_command = Command(['xacro ', xacro_path])
 
+    sonar_optical_flow_node = Node(
+        package='oculus_ros2',
+        executable='oculus_optical_flow.py',
+        namespace="sonar",
+        output="screen",
+        remappings=[
+            ('fan_image', 'fan_image/now'),
+        ]
+    ) 
+
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         parameters=[{'robot_description': robot_description_command}]
     ) 
-      
+
     jointstate_publisher_gui = Node(
         package='joint_state_publisher_gui',
         executable='joint_state_publisher_gui',
@@ -154,7 +170,7 @@ def generate_launch_description():
     # Add the bag playback process
     bag_play_process = ExecuteProcess(
         cmd=['ros2', 'bag', 'play', '--loop', 
-             '/home/ale/ros2_ws/src/oculus_ros2/Data/bags/rosbag2_2025_11_12-15_25_27'],
+             '/home/ale/sonar_data/rosbag2_2026_02_06-14_10_02'],
         output='screen'
     )
 
@@ -162,11 +178,12 @@ def generate_launch_description():
     
     ld.add_action(oculus_sonar_node)
     ld.add_action(sonar_viewer_node)    
-    ld.add_action(sonar_saver_node)
-    ld.add_action(sonar_point_cloud_node)
-    ld.add_action(sonar_state_estimation_node)
+    ld.add_action(sonar_optical_flow_node)    
+    #ld.add_action(sonar_saver_node)
+    # ld.add_action(sonar_point_cloud_node)
+    # ld.add_action(sonar_state_estimation_node)
     ld.add_action(world_frame_static_tf_node)
-    #ld.add_action(sonar_frame_static_tf_node)
+    ld.add_action(sonar_frame_static_tf_node)
     ld.add_action(robot_state_publisher_node)
     #ld.add_action(jointstate_publisher_gui)
 

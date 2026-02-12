@@ -135,8 +135,12 @@ ament_target_dependencies(sonar_saver_node PUBLIC
 
 ## install 
 
-install(PROGRAMS scripts/display_oculus_file.py scripts/oculus_to_rosbag.py DESTINATION bin)
-install(PROGRAMS scripts/oculus_subscriber_to_image.py DESTINATION lib/${PROJECT_NAME})
+install(PROGRAMS 
+            oculus/scripts/display_oculus_file.py 
+            oculus/scripts/oculus_to_rosbag.py 
+            oculus/scripts/oculus_subscriber_to_image.py
+            oculus/scripts/oculus_optical_flow.py
+        DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY launch cfg mesh urdf DESTINATION share/${PROJECT_NAME})
 

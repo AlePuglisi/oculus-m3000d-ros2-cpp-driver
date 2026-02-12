@@ -20,7 +20,7 @@
 #include <sstream>
 #include <iomanip>
 
-#define OUTPUT_DIR "/home/ale/ros2_ws/src/oculus_ros2/Data/images/sonar/2025_11_12_15_25/"
+#define OUTPUT_DIR "/home/ale/sonar_ws/src/oculus-ros2-cpp-driver/OCULUS_ROS2/Data/images/sonar/2026_02_06_14_15/"
 
 class SonarSaver : public rclcpp::Node
 {

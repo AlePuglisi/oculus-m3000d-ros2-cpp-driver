@@ -65,13 +65,13 @@ class SonarPostProcess:
                 if cv2.waitKey(100) & 0xFF == ord('q'):
                     break
 
-        out_video_filtered.release()
-        out_video_raw.release()
-        cv2.destroyAllWindows()
+            out_video_filtered.release()
+            out_video_raw.release()
+            cv2.destroyAllWindows()
 
 
 def main(args=None):
-    images_path = "/home/ale/ros2_ws/src/oculus_ros2/Data/images/sonar/2025_11_12_15_25/cartesian"
+    images_path = "/home/ale/sonar_ws/src/oculus-ros2-cpp-driver/OCULUS_ROS2/Data/images/sonar/2026_02_06_14_15/polar"
     # images_path = "/home/ale/ros2_ws/src/oculus_ros2/Data/images/sonar/shipwreck/"
     sonar_post_process = SonarPostProcess(images_path)
 
