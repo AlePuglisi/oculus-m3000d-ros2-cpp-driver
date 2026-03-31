@@ -15,7 +15,6 @@ class OpticalFlowSonar(Node):
     def __init__(self):
         super().__init__('oculus_optical_flow')
 
-        # Initialize the TransformBroadcaster
         self.sonar_flow_img_publisher = self.create_publisher(Image, 'fan_image/optical_flow', 10)
         
         # Subscriptions

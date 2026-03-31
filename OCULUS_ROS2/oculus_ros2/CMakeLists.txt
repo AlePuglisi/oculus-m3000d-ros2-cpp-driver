@@ -9,6 +9,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED) 
 find_package(rclcpp REQUIRED)
 find_package(rclpy REQUIRED)
 find_package(rcl_interfaces REQUIRED)
@@ -134,13 +135,16 @@ ament_target_dependencies(sonar_saver_node PUBLIC
 
 
 ## install 
+ament_python_install_package(${PROJECT_NAME})
 
 install(PROGRAMS 
-            oculus/scripts/display_oculus_file.py 
-            oculus/scripts/oculus_to_rosbag.py 
-            oculus/scripts/oculus_subscriber_to_image.py
-            oculus/scripts/oculus_optical_flow.py
+            scripts/display_oculus_file.py 
+            scripts/oculus_to_rosbag.py 
+            scripts/oculus_subscriber_to_image.py
+            scripts/oculus_optical_flow.py
+            scripts/imaging_sonar_optical_flow_pose.py
         DESTINATION lib/${PROJECT_NAME})
+
 
 install(DIRECTORY launch cfg mesh urdf DESTINATION share/${PROJECT_NAME})
 

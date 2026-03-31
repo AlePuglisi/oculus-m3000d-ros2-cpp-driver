@@ -155,22 +155,32 @@ def generate_launch_description():
         ]
     ) 
 
+    imaging_sonar_optical_flow_pose_node = Node(
+        package='oculus_ros2',
+        executable='imaging_sonar_optical_flow_pose.py',
+        namespace="sonar",
+        output="screen",
+        remappings=[
+            ('fan_image', 'fan_image/now'),
+        ]
+    ) 
+
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         parameters=[{'robot_description': robot_description_command}]
     ) 
 
-    jointstate_publisher_gui = Node(
-        package='joint_state_publisher_gui',
-        executable='joint_state_publisher_gui',
-        output="screen" 
-    )
+    # jointstate_publisher_gui = Node(
+    #     package='joint_state_publisher_gui',
+    #     executable='joint_state_publisher_gui',
+    #     output="screen" 
+    # )
 
     # Add the bag playback process
     bag_play_process = ExecuteProcess(
         cmd=['ros2', 'bag', 'play', '--loop', 
-             '/home/ale/sonar_data/rosbag2_2026_02_06-14_10_02'],
+             '/home/ale/sonar_data/rosbag2_2026_02_06-15_14_30'],
         output='screen'
     )
 
@@ -178,7 +188,8 @@ def generate_launch_description():
     
     ld.add_action(oculus_sonar_node)
     ld.add_action(sonar_viewer_node)    
-    ld.add_action(sonar_optical_flow_node)    
+    #ld.add_action(sonar_optical_flow_node)    
+    # ld.add_action(imaging_sonar_optical_flow_pose_node)    
     #ld.add_action(sonar_saver_node)
     # ld.add_action(sonar_point_cloud_node)
     # ld.add_action(sonar_state_estimation_node)
