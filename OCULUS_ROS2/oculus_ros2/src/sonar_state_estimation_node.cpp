@@ -23,7 +23,7 @@ SonarStateEstimation::SonarStateEstimation()
         "oculus_ping", 1, std::bind(&SonarStateEstimation::oculusPingCallback_, this, std::placeholders::_1));
     
     this->oculus_pose_publisher_ = this->create_publisher<oculus_interfaces::msg::OculusPoseEstimation>(
-        "sonar_pose_zrpy", 1);
+        "sonar_pose_depth_ahrs", 1);
 
     this->callback_handle_ = this->add_on_set_parameters_callback(
         std::bind(&SonarStateEstimation::parametersCallback, this, std::placeholders::_1));
