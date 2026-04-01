@@ -1,59 +1,37 @@
-# BSD 3-Clause License
-#
-# Copyright (c) 2022, ENSTA-Bretagne
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions are met:
-#
-# 1. Redistributions of source code must retain the above copyright notice, this
-#    list of conditions and the following disclaimer.
-#
-# 2. Redistributions in binary form must reproduce the above copyright notice,
-#    this list of conditions and the following disclaimer in the documentation
-#    and/or other materials provided with the distribution.
-#
-# 3. Neither the name of the copyright holder nor the names of its
-#    contributors may be used to endorse or promote products derived from
-#    this software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-# SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-# CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-# OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 import os
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.substitutions import Command
-from launch.actions import ExecuteProcess
+from launch.substitutions import Command, LaunchConfiguration
+from launch.actions import ExecuteProcess, DeclareLaunchArgument
 
 def generate_launch_description():
 
-    ld = LaunchDescription()
+    bag_path_arg = DeclareLaunchArgument(
+        'bag_path',
+        default_value='/home/user/rosbag2',
+        description='Absolute ROS2 bag path'
+    )
+    bag_path = LaunchConfiguration('bag_path')
 
     sonar_config = os.path.join(
         get_package_share_directory("oculus_ros2"), "cfg", "oculus_sonar.yaml"
     )
-
     viewer_config = os.path.join(
         get_package_share_directory("oculus_ros2"), "cfg", "sonar_viewer.yaml"
     )
-
     point_cloud_config = os.path.join(
         get_package_share_directory("oculus_ros2"), "cfg", "sonar_point_cloud.yaml"
     )
-
     pose_state_config = os.path.join(
         get_package_share_directory("oculus_ros2"), "cfg", "sonar_state_estimation.yaml"
+    )
+
+    # Bag playback process
+    bag_play_process = ExecuteProcess(
+        cmd=['ros2', 'bag', 'play', '--loop', bag_path],
+        output='screen'
     )
 
     oculus_sonar_node = Node(
@@ -144,6 +122,12 @@ def generate_launch_description():
     #xacro_path = os.path.join(description_path, "urdf", "sonar_6dof.urdf.xacro")
     xacro_path = os.path.join(description_path, "urdf", "sonar.urdf.xacro")
     robot_description_command = Command(['xacro ', xacro_path])
+   
+    robot_state_publisher_node = Node(
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        parameters=[{'robot_description': robot_description_command}]
+    ) 
 
     sonar_optical_flow_node = Node(
         package='oculus_ros2',
@@ -165,39 +149,26 @@ def generate_launch_description():
         ]
     ) 
 
-    robot_state_publisher_node = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        parameters=[{'robot_description': robot_description_command}]
-    ) 
-
-    # jointstate_publisher_gui = Node(
-    #     package='joint_state_publisher_gui',
-    #     executable='joint_state_publisher_gui',
-    #     output="screen" 
-    # )
-
-    # Add the bag playback process
-    bag_play_process = ExecuteProcess(
-        cmd=['ros2', 'bag', 'play', '--loop', 
-             '/home/ale/sonar_data/rosbag2_2026_02_06-15_14_30'],
-        output='screen'
+    jointstate_publisher_gui = Node(
+        package='joint_state_publisher_gui',
+        executable='joint_state_publisher_gui',
+        output="screen" 
     )
 
-    ld.add_action(bag_play_process) 
-    
-    ld.add_action(oculus_sonar_node)
-    ld.add_action(sonar_viewer_node)    
-    #ld.add_action(sonar_optical_flow_node)    
-    # ld.add_action(imaging_sonar_optical_flow_pose_node)    
-    #ld.add_action(sonar_saver_node)
-    # ld.add_action(sonar_point_cloud_node)
-    # ld.add_action(sonar_state_estimation_node)
-    ld.add_action(world_frame_static_tf_node)
-    ld.add_action(sonar_frame_static_tf_node)
-    ld.add_action(robot_state_publisher_node)
-    #ld.add_action(jointstate_publisher_gui)
 
-    ld.add_action(rviz_node)
-
-    return ld
+    return LaunchDescription([
+        bag_path_arg,
+        bag_play_process,
+        oculus_sonar_node,
+        sonar_viewer_node,
+        #sonar_optical_flow_node
+        #imaging_sonar_optical_flow_pose_node
+        #sonar_saver_node
+        #sonar_point_cloud_node
+        #sonar_state_estimation_node,
+        world_frame_static_tf_node,
+        sonar_frame_static_tf_node,
+        robot_state_publisher_node, 
+        #jointstate_publisher_gui
+        rviz_node
+    ])
