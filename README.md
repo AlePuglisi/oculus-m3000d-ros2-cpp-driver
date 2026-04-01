@@ -22,7 +22,8 @@ This ROS2 metapackage was developed and tested using:
 
 - [Repository Structure](#repository-structure)
 - [Installation](#installation)
-- [Quick Start](#quick-start)
+- [Quick Hardware Start](#quick-hardware-start)
+- [Quick Software Start](#quick-software-start)
 - [Extensive Usage Documentation](#extensive-usage-documentation)
 - [Sonar Data Brief Description](#sonar-data-brief-description)
 - [Software Structure Notes](#software-structure-notes)
@@ -86,7 +87,7 @@ oculus-ros2-cpp-driver/
     sudo apt-get install -y libboost-system-dev libboost-thread-dev
     ```
 
-2. **Compile the oculus_driver library**
+2. **Set up the build for the oculus_driver library**
 
     This library follows a standard CMake compilation procedure.
 
@@ -103,7 +104,7 @@ oculus-ros2-cpp-driver/
     mkdir build && cd build
     ```
 
-3. **Compile the oculus_dirver library**
+3. **Build the oculus_dirver library**
 
     Generate your build system with CMake, compile and install :
 
@@ -114,6 +115,7 @@ oculus-ros2-cpp-driver/
 
     <details close>
     <summary>With More Explicit Building Commands</summary>
+
     ```
         cmake -DCMAKE_BUILD_TYPE=Release \
             -DCMAKE_INSTALL_PREFIX=/usr/local \
@@ -146,9 +148,98 @@ colcon build
 
 If you want to add new features or understand the software structure, refer to [Software Strucure Notes](#software-structure-notes) section. 
 
-## Quick Start
+## Quick Hardware Start
 
-TODO: Describe how to easily launch the ROS2 Driver, visualize the sensor output and reconfigure it. 
+
+
+## Quick Software Start
+
+To start the oculus M3000d driver, different launch files are available. 
+
+### 0) Define the Initial Configuration
+
+If you are running one of the launch file, you can set up an initial parameter configuration in a `.yaml` file. <br/>
+Navigate to `/OCULUS_ROS2/oculus_ros2/cfg/`, where you can find the configuration file used for any node. 
+
+Setting up the driver and the processing node in advance is not crucial, since dynamic parameter reconfiguration is handled by the nodes, as described next.
+
+### 1) Start the Driver + optional Sonar Processing Nodes
+
+- **Sonar Driver** <br/>
+
+    To run only the driver node, run the basic driver node (handling the ROS2 interface with the low level sonar driver library). 
+
+    ```
+    ros2 run oculus_ros2 oculus_sonar_node
+    ```
+    
+    <details close>
+    <summary>Exposed Topics</summary>
+        If the driver is runned without any topic remapping (as the command above), it will expose: <br/>
+        \status :  <br/>
+        \ping : <br/>
+        \temperature : <br/>
+        \pressure : <br/>
+        Additionaly, the reconfiguration ROS2 node paramters are exposed to change the sonar configuration (frequency mode, gain, etc)<br/>
+        Refer to the section below "Reconfiguring the sonar" for further details on this. 
+    </details>
+    <br/>
+
+- **Sonar Driver + Image Formation**<br/>
+
+    ```
+    ros2 launch oculus_ros2 oculus_ros2_basic.launch.py
+    ```
+
+    This will run the `oculus_sonar_node` and `sonar_viewer_node`.
+
+- **Sonar Driver + Image Formation + Point Cloud + rviz2**<br/>
+   
+    ```
+    ros2 launch oculus_ros2 oculus_ros2_full.launch.py
+    ```
+### 2) Reconfiguring the Sonar and the Processing Nodes 
+
+Most of the configurations of the Sonar Driver and the Processing Nodes (such as the viewer and the point cloud publisher) are handled by ROS2 node's parameters. <br/>
+This allows a reconfiguration during sensor usage, without restarting the process (using the parameter reconfiguration callback).
+
+It is possible to reconfigure the paramters using the CLI tools exposed by ROS2, but it is more confortable to use the rqt Dynamic reconfigure Plugin. Follow the steps below to easily start it: 
+
+launch the ros2 `rqt` as
+```
+rqt
+```
+
+Open the parameter reconfiguration window, navigating to <br/> `> Plugins > Configuration > Dynamic Reconfigure`
+
+From here select the `oculus_sonar` driver node, and you will see all the reconfigurable sonar paramters (freq mode, gain, range, etc).
+In the same way, if you want to change the polar-to-cartesian conversion reolution or other aspect of the viewer, do the same for the `sonar_viewer` node. This holds for any node that exposes ROS2 parameters where the paramter callback is implemented. 
+
+
+### Other Useful Commands
+
+- **Recording ros2 bags**<br/>
+
+    To **record a specific subset of topics**, in anoyther terminal you can use the command:
+    ```
+    ros2 bag record /topic1 /topic2
+    ```
+
+    **TAKE CARE**: If the full oculus stack is running, including the point cloud and high resolution cartesian images, bag files can be EXTREMELY heavy if all messages are stored. 
+
+    For example, the most important data published during sonar usage are stored in `/ping` message. If `the oculus_sonar_node` is running under the `sonar` namespace, you can store the ping messages as: 
+
+    ```
+    ros2 bag record /sonar/ping
+    ```
+
+    Then, replaying this bag with the `sonar_viewer_node` running you will have access to all the visualization functionality of the driver library. The same for the other sonar nodes that process the raw ping data or the cartesian/polar images. 
+
+    (Useful tutorial on working with ros2 bags [here](https://roboticsbackend.com/ros2-bag-save-and-replay-topic-data/))
+
+
+
+
 
 ## Extensive Usage Documentation
 
