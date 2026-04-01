@@ -159,7 +159,7 @@ To start the oculus M3000d driver, different launch files are available.
 ### 0) Define the Initial Configuration
 
 If you are running one of the launch file, you can set up an initial parameter configuration in a `.yaml` file. <br/>
-Navigate to `/OCULUS_ROS2/oculus_ros2/cfg/`, where you can find the configuration file used for any node. 
+Navigate to [/OCULUS_ROS2/oculus_ros2/cfg](OCULUS_ROS2/oculus_ros2/cfg/) directory, where you can find the configuration file used for any node. 
 
 Setting up the driver and the processing node in advance is not crucial, since dynamic parameter reconfiguration is handled by the nodes, as described next.
 
@@ -216,7 +216,7 @@ From here select the `oculus_sonar` driver node, and you will see all the reconf
 In the same way, if you want to change the polar-to-cartesian conversion reolution or other aspect of the viewer, do the same for the `sonar_viewer` node. This holds for any node that exposes ROS2 parameters where the paramter callback is implemented. 
 
 
-### Other Useful Commands
+### Bonus) Other Useful Commands and Tools
 
 - **Recording ros2 bags**<br/>
 
@@ -238,12 +238,75 @@ In the same way, if you want to change the polar-to-cartesian conversion reoluti
     (Useful tutorial on working with ros2 bags [here](https://roboticsbackend.com/ros2-bag-save-and-replay-topic-data/))
 
 
+- **Converting ros2 bags to Images**<br/>
 
+    Once recorder a ROS2 bag, you may want to save the polar/cartesian sonar frames in a local directory as .png images. <br/>
+    The `sonar_saver_node` has been implemented exactly for this. <br/>
+    
+    The code is not yet optimized to be device agnostic in handling the absolute/relative paths, so you need to make some minor modification on the node header to properly configur ethe save path. 
+    Additionally, some subscribers and publisher topic names are "hardcoded" in the nodes used in the steps above, take care of properly remapping the topic names and namespaces if needed. 
 
+    0) Open [/OCULUS_ROS2/oculus_ros2/include/sonar_saver_node.hpp](OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_saver_node.hpp) and update the
+       `OUTPUT_DIR` with your absolute desired save directory. 
+    1) Since you apply changes on the source code, remember to rebuild the ws and source. 
+    2) Start the sonar saver node 
+       ```
+       ros2 run oculus_ros2 sonar_saver_node
+       ```     
+    3) IF the bag store only the ping messages (with raw sonar echo readings). Start the viewer node flor image formation (polar and cartesian)
+       ```
+       ros2 run oculus_ros2 sonar_viewer_node
+       ```    
+    4) play the bag file of interest 
+       ```
+       ros2 bag play <bag_name>
+       ``` 
+    It is possible to peroform the steps above by launching a single launch file, taking care of properly updating the bag path, topic names and possible namespaces of the nodes: 
+
+    ```
+    ros2 launch oculus_ros2 oculus_ros2_bag_saver.launch.py bag_path:=<absolute_path_to_bag>
+    ```
+    
+- **Post process and inspect ros2 bag messages**<br/>
+
+    The launch file ``oculus_ros2_bag`` provide a good template launcher for any sonar data processing based on recorded bag. <br/>
+    It automatically play the specified bag in loop mode, start the viewer node for image processing, rviz2 for visualization, and some other utility nodes. <br/>
+
+    Please notice that some topics are remapped because of timestamp WARNINGS reason. 
+    Probably there is a better way to handle the different timestamp from the running nodes and the messages broadcasted by the bag file. 
+
+    ```
+    ros2 launch oculus_ros2 oculus_ros2_bag.launch.py bag_path:=<absolute_path_to_bag>
+    ```
 
 ## Extensive Usage Documentation
 
 TODO: Describe more in details the driver additional features 
+
+## About the M3000d Hardware (Available Informations)
+
+This section provide some useful details on the Oculus M3000d hardware. <br/>
+Some of those details can be relevant for any sensor fusion algorithm or to better understand the available data and processing steps. 
+
+### Integrated Proprioceptive Sensors (Attitute Heading + Pressure)
+
+Additionally to the transducers used to generate the acoustic image (transmit sound and record echo), the sonar integrate additional proprioceptive sensors.  
+
+In particular, the M3000d integrate an Attitude and Heading Reference System (AHRS) and Pressure Sensor (snesors' model and specifications not available) <br/>
+The images below show the location and axis configuration of the AHRS (shared by the BluePrintSubsea Technical support team).
+
+<image width=480 height=360 src=docs/images/M3000d_AHRS_location.png>
+<image width=480 height=360 src=docs/images/M3000d_AHRS_axis.png>
+
+**IMPORTANT**: The raw data of the IMU used by the AHRS are not exposed by the sdk.
+Roll, Pitch and Heading are stored in the oculus Ping message. <br/>
+From some preliminary tests those data are not reliable, and calibration is not possible. 
+
+With respect to the pressure information, additional tests are required to estimate its quantitative performances. 
+The **pressure** data is stored also in the oculus Ping message, in **[Pa]**. <br/>
+Calibrating the sensor for the static bias and filtering the noise, it should provide accurate pressure measurements for sonar depth. 
+
+
 
 ## Sonar Data Brief Description 
 
