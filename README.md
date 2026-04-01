@@ -4,16 +4,18 @@ ROS2 (Jazzy) Driver for the Blueprint subsea Oculus M3000d Sonar.
 
 A C++ (Without ROS) Sonar interface is under development in the [``cpp`` branch of this repo](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/tree/cpp)
 
+<image width=852 height=470 src=docs/images/Oculus_Driver_Overview.png>
+
 ###  Software "Development": Updating Extisting Drivers
 
-This package is adapted and extended from the M1200d [ROS2 Driver](https://github.com/godardma/oculus_ros2/tree/main) by ENSTA Bretagne Robotics, and the underlying low level Driver [Sonar Interface](https://github.com/ENSTABretagneRobotics/oculus_driver)
+This package is adapted and extended from the M1200d [ROS2 Driver](https://github.com/godardma/oculus_ros2/tree/main) by ENSTA Bretagne Robotics, and the underlying low level Driver [Sonar Interface](https://github.com/ENSTABretagneRobotics/oculus_driver)<br/>
+The mentioned M1200d software has been updated for the M3000d using the blueye proprietary **oculus_sdk** (shared by the technical support team).<br/>
 
-The mentioned M1200d software has been updated for the M3000d using the blueye proprietary **oculus_sdk** <br/>
-(shared by the technical support team).
+Some useful documents to develop the sonar software and use it are collected in the [docs](docs/) folder of this repo.
 
 ## Requirements
 
-This ROS2 metapackage was developed and tested using:
+This ROS2 metapackage (with the low-level sonar driver) was developed and tested using:
 * Ubuntu 24.04 LTS
 * ROS2 jazzy
 * CMake 3.28.3
@@ -22,10 +24,10 @@ This ROS2 metapackage was developed and tested using:
 
 - [Repository Structure](#repository-structure)
 - [Installation](#installation)
-- [Quick Hardware Start](#quick-hardware-start)
-- [Quick Software Start](#quick-software-start)
-- [Extensive Usage Documentation](#extensive-usage-documentation)
+- [Quick Start - Sensor Set Up](#quick-start-sensor-set-up)
+- [Quick Start - Using the Driver](#quick-start-using-the-driver)
 - [Sonar Data Brief Description](#sonar-data-brief-description)
+- [Oculus M300d in Depth](#oculus-m3000d-in-depth)
 - [Software Structure Notes](#software-structure-notes)
 - [Problems and Possible Improvements](#problems-and-possible-improvements)
 
@@ -38,6 +40,7 @@ This repository contains all the code necessary to build and use the blueprint s
 ```
 oculus-ros2-cpp-driver/
 ├── docker/                  # Docker configuration files
+├── docs/                    # Documentation images and files 
 ├── oculus_driver_lib/       # C++ driver library
 ├── oculus_ros2/             # ROS2 packages
 │   ├── oculus_interfaces/   # Message/service 
@@ -131,7 +134,7 @@ oculus-ros2-cpp-driver/
     sudo make -j4 install
     ```
 
-### 2) How to Build oculus_ros2
+### 2) Build the oculus_ros2 package
 
 If all the steps above compiled without errors, you currently have a ros2 workspace ready to be built and the oculus_driver library properly installed. 
 
@@ -148,17 +151,41 @@ colcon build
 
 If you want to add new features or understand the software structure, refer to [Software Strucure Notes](#software-structure-notes) section. 
 
-## Quick Hardware Start
+## Quick Start Sensor Set Up 
+
+### 1) Sonar-Computer Ethernet Connection 
+
+Connecting the Sonar to the computer (Ethernet connection) <br/>
+**! VERY IMPORTANT !** - Never power on the Sonar when it is not underwater. 
+Connect the plug or switch on the power source only when the sonar is in the water. <br/>
+The elctronics are built to work when surrounded by water, it heats up very quickly and it will **broke** if this is not respected. 
+
+<image width=572 height=410 src=docs/images/Sensor_Set_Up.png>
+
+### 2) Configure Wired Ethernet Connection
+
+In your computer configure the ethernet connection in IPv4 with  <br/>
+**IPv4 Method**: `Manual` <br/>
+**Addresses**: Address = x1.x2.x3.x4+1 where x1.x2.x3.x4 is the sonar ip | Netmask = 255.255.255.0 <br/>
+
+The sonar ip x1.x2.x3.x4 can be found easily by opening the Oculus ViewPoint app and searching for the connected devices. 
 
 
+## Quick Start Using the Driver 
 
-## Quick Software Start
+To start the oculus M3000d driver, different launch files are available for basic functionalities or more "advanced" features. 
 
-To start the oculus M3000d driver, different launch files are available. 
+**IMPORTANT**: With the current implementation, you cannot start the ros2 driver while the Oculus ViewPoint is running. 
+If you try to launch any of the ROS2 driver scripts with the ViewPoint visualization running, it will not work. 
+
+**IMPORTANT**: Be sure that you don't have any firewall active on your device. This can cause connection problem both in the ViewPoint and with the ROS2 driver. You can disable it in a terminal byb running the following command: 
+```
+sudo ufw disable
+```
 
 ### 0) Define the Initial Configuration
 
-If you are running one of the launch file, you can set up an initial parameter configuration in a `.yaml` file. <br/>
+If you are running one of the launch file, you can set up the initial node's parameter configuration in a `.yaml` file. <br/>
 Navigate to [/OCULUS_ROS2/oculus_ros2/cfg](OCULUS_ROS2/oculus_ros2/cfg/) directory, where you can find the configuration file used for any node. 
 
 Setting up the driver and the processing node in advance is not crucial, since dynamic parameter reconfiguration is handled by the nodes, as described next.
@@ -210,11 +237,12 @@ launch the ros2 `rqt` as
 rqt
 ```
 
-Open the parameter reconfiguration window, navigating to <br/> `> Plugins > Configuration > Dynamic Reconfigure`
+Open the parameter reconfiguration window and navigating to <br/> `> Plugins > Configuration > Dynamic Reconfigure`
 
-From here select the `oculus_sonar` driver node, and you will see all the reconfigurable sonar paramters (freq mode, gain, range, etc).
-In the same way, if you want to change the polar-to-cartesian conversion reolution or other aspect of the viewer, do the same for the `sonar_viewer` node. This holds for any node that exposes ROS2 parameters where the paramter callback is implemented. 
+From there select the `oculus_sonar` driver node, and you will see all the reconfigurable sonar parameters (frequency mode, gain, range, etc).
+In the same way, if you want to change the polar-to-cartesian conversion reolution or other aspect of the viewer, select the `sonar_viewer` node. This holds for any node that exposes ROS2 parameters and implements the paramter callback. 
 
+The configuartion `.yaml` files are extensively commented to understand what each paramteres refers to, the accepted values, and how they are mapped to the sonar behavior. 
 
 ### Bonus) Other Useful Commands and Tools
 
@@ -279,11 +307,34 @@ In the same way, if you want to change the polar-to-cartesian conversion reoluti
     ros2 launch oculus_ros2 oculus_ros2_bag.launch.py bag_path:=<absolute_path_to_bag>
     ```
 
-## Extensive Usage Documentation
+## Sonar Data Brief Description 
 
-TODO: Describe more in details the driver additional features 
+Preliminary notes on how the Oculus M3000d Sonar generate the acoustic images readings and how they are stored in the ROS2 driver.<br/>
+To read more about the Data Structure Definitions, read the official [documentation file](docs/NT-148-D00527-06_Oculus_Data_Structure_Definitions.pdf)
 
-## About the M3000d Hardware (Available Informations)
+### Oculus SDK Messages 
+
+### Oculus ROS2 Messages 
+
+To see the source code of the custom oculus ROS2 Messages, explore the `msg` definition in the [oculus_interfaces](OCULUS_ROS2/oculus_interfaces) package.  
+
+### Acoustic Image Formation Process 
+
+Generic high level description of the logic behind acoustic images formation process. 
+
+### Oculus Sonar Logic
+
+Acoustic image formation process for the **oculus blueprint M3000d** series sonar. The same logic is used by previous version of the M series forward looking sonar, with some changes in the software implementation on the sdk. 
+<br/>(Probably other FLS sensors uses similar workflows)
+
+
+
+## Oculus M3000d in Depth
+
+More detailed hardware and software information to use or modify/improve the M3000d driver. 
+
+
+### About the M3000d Hardware (Available Informations)
 
 This section provide some useful details on the Oculus M3000d hardware. <br/>
 Some of those details can be relevant for any sensor fusion algorithm or to better understand the available data and processing steps. 
@@ -305,25 +356,6 @@ From some preliminary tests those data are not reliable, and calibration is not 
 With respect to the pressure information, additional tests are required to estimate its quantitative performances. 
 The **pressure** data is stored also in the oculus Ping message, in **[Pa]**. <br/>
 Calibrating the sensor for the static bias and filtering the noise, it should provide accurate pressure measurements for sonar depth. 
-
-
-
-## Sonar Data Brief Description 
-
-Preliminary notes on how the Oculus M3000d Sonar generate the acoustic images readings.
-
-### Acoustic Image Formation Process 
-
-Generic high level description of the logic behind acoustic images formation process. 
-
-### Oculus Sonar Logic
-
-Acoustic image formation process for the **oculus blueprint M3000d** series sonar. The same logic is used by previous version of the M series forward looking sonar, with some changes in the software implementation on the sdk. 
-<br/>(Probably other FLS sensors uses similar workflows)
-
-
-
-
 
 
 ## Software Structure Notes
@@ -454,4 +486,30 @@ It uses the ROS cv_bridge utils to convert ROS images in the OpenCV format, read
   
 </details>
 
-## Problems and Possible Improvements
+## Problems, Known Bugs, and Possible Improvements
+
+List of software/hardware known problems, bugs and ideas for further improvements. 
+
+### Problems and Bugs
+
+- **Changing the Gain in High Frequency Mode** <br/>
+    You may be surprised when reconfguring the gain in high frequency mode, the number that you will set won't be the one reflected in the ros2 parameter. <br/>
+    This is what is stated in the SonarDruver source code of the low level oculus_driver_lib: <br/>
+    ```
+    // When masterMode = 2, the sonar force gainPercent between 40& and
+    // 100%, BUT still needs resquested gainPercent to be between 0%
+    // and 100%. (If you request a gainPercent=0 in masterMode=2, the
+    // fireMessage in the ping results will be 40%). The gainPercent is
+    // rescaled here to ensure consistent parameter handling on client
+    // side).
+    if(newConfig.masterMode == 2) {
+        newConfig.gainPercent = (newConfig.gainPercent - 40.0) * 100.0 / 60.0;
+    }
+    ```
+    As you can see, a proper value rescaling is performed when sending the request to the sonar. <br/>
+    I haven't tested the behavior without this yet. 
+
+### To Do and Ideas 
+
+- **Implement Robust Sonar Image Filtering** <br/>
+   It is mandatory before implementing any perception algorithms to find optimal ways to filter out as much noise as possible from the sonar data. Artifacts and Speckle noise will influence and degradate the performance of any compuer vision and deep learning technique. 
