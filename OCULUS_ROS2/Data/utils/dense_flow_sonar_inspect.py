@@ -14,7 +14,7 @@ import dense_flow_sonar_debugv2
 
 def main(args=None):
 
-    results = pd.read_csv('/home/ale/sonar_ws/src/oculus-ros2-cpp-driver/OCULUS_ROS2/Data/utils/results/result_magn10_points20_thresh3_iter50.csv', index_col=0)
+    results = pd.read_csv('/home/ale/sonar_ws/src/datasets/rosbag2_2026_04_02-17_01_57/sonar/cartesian/optical_flow_results/result_magn5_points25_thresh3_iter100.csv', index_col=0)
 
     img_names = results["img_name"].tolist() 
     t_csv= results["time"].to_numpy()
@@ -24,8 +24,10 @@ def main(args=None):
     n_best_inliers_csv = results["N_inliers"].to_numpy()
 
     # --- Path to Cartesian Sonar Images ---
-    imgs_path = '/home/ale/sonar_ws/src/oculus-ros2-cpp-driver/OCULUS_ROS2/Data/images/sonar/2026_02_06_14_15/cartesian/'
-
+    imgs_path = '/home/ale/sonar_ws/src/datasets/rosbag2_2026_04_02-17_01_57/sonar/cartesian/'
+    
+    rgb_path = '/home/ale/sonar_ws/src/datasets/rosbag2_2026_04_02-17_01_57/rgb/'
+    
     # Read and Rescale first images 
     img_S1 = cv2.imread(os.path.join(imgs_path, img_names[0]), cv2.IMREAD_GRAYSCALE)
     img_S2 = cv2.imread(os.path.join(imgs_path, img_names[1]), cv2.IMREAD_GRAYSCALE)
@@ -37,10 +39,11 @@ def main(args=None):
     # --- Setup figure ---
     fig, axes = plt.subplots(2, 3, figsize=(15, 10))
     ax_flow       = axes[0, 0]
+    ax_rgb        = axes[0, 1]
+    ax_traj       = axes[0, 2]
     ax_log        = axes[1, 0]
-    ax_traj       = axes[0, 1]
     ax_transl     = axes[1, 1]
-    ax_rot        = axes[0, 2]
+    ax_rot        = axes[1, 2]
 
     plt.tight_layout()
     plt.ion()
@@ -59,6 +62,8 @@ def main(args=None):
     dummy_rgb = np.zeros((img_S1.shape[0], img_S1.shape[1], 3), dtype=np.uint8)
     flow_imshow = ax_flow.imshow(dummy_rgb)
     ax_flow.set_title("Optical Flow")
+    rgb_imshow = ax_rgb.imshow(dummy_rgb)
+    ax_rgb.set_title("RGB Image")
 
     # ax_traj: persistent line for origin trajectory (with current xy frame) + text
     ax_traj.set_title("Trajectory")
@@ -120,13 +125,16 @@ def main(args=None):
 
     for i in range(0, len(img_names) - step_size, step_size):
 
-        time.sleep(1)
+        time.sleep(0.15)
 
         # Read consecutive frame images and resize 
         img_S1 = cv2.imread(os.path.join(imgs_path, img_names[i]),   cv2.IMREAD_GRAYSCALE)
         img_S2 = cv2.imread(os.path.join(imgs_path, img_names[i+step_size]), cv2.IMREAD_GRAYSCALE)
         img_S1 = cv2.resize(img_S1, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_LINEAR)
         img_S2 = cv2.resize(img_S2, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_LINEAR)
+        
+        img_rgb = cv2.imread(os.path.join(rgb_path, img_names[i]),   cv2.IMREAD_COLOR_RGB)
+        rgb_imshow.set_data(img_rgb)
 
         timestamp_string = f"S: {img_names[i+step_size]} | t={t:.2f}s"
         timestamp_string_img = f"S1: {img_names[i]} -> S2: {img_names[i+step_size]}"

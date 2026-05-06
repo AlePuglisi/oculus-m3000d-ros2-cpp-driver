@@ -478,7 +478,7 @@ def main(args=None):
     ])
 
     # --- Path to Cartesian Sonar Images ---
-    imgs_path = '/home/ale/sonar_ws/src/oculus-ros2-cpp-driver/OCULUS_ROS2/Data/images/sonar/2026_02_06_14_15/cartesian/'
+    imgs_path = '/home/ale/sonar_ws/src/datasets/rosbag2_2026_04_02-17_01_57/sonar/cartesian/'
     image_files = sorted([
         f for f in os.listdir(imgs_path)
         if f.lower().endswith(('.png', '.jpg', '.jpeg'))
@@ -496,10 +496,10 @@ def main(args=None):
     img_S2 = cv2.resize(img_S2, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_LINEAR)
     
     # --- Initialize RANSAC-Sonar-Flow Pose estimation from first couple of images ---
-    min_magnitude=10
-    n_points=20
+    min_magnitude=5
+    n_points=25
     threshold=3
-    max_iter=50
+    max_iter=100
 
     flow_pose = SonarOpticalFlowRansacPose(max_range=5, max_aperture_deg=130,
                                            height=img_S1.shape[0], width=img_S1.shape[1],
@@ -732,7 +732,7 @@ def main(args=None):
         cv2.destroyWindow("Frame Transform")
 
     finally: 
-        save_dir = '/home/ale/sonar_ws/src/oculus-ros2-cpp-driver/OCULUS_ROS2/Data/utils/results/'
+        save_dir = '/home/ale/sonar_ws/src/datasets/rosbag2_2026_04_02-17_01_57/sonar/cartesian/optical_flow_results/'
         csv_name = 'result_magn' + str(min_magnitude) + '_points' + str(n_points) + '_thresh' + str(threshold) + '_iter' + str(max_iter) + '.csv'
         save_path = os.path.join(save_dir, csv_name)
         if save_data_csv == True:

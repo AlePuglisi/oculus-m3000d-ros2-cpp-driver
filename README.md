@@ -11,7 +11,7 @@ A C++ (Without ROS) Sonar interface is under development in the [``cpp`` branch 
 This package is adapted and extended from the M1200d [ROS2 Driver](https://github.com/godardma/oculus_ros2/tree/main) by ENSTA Bretagne Robotics, and the underlying low level Driver [Sonar Interface](https://github.com/ENSTABretagneRobotics/oculus_driver)<br/>
 The mentioned M1200d software has been updated for the M3000d using the blueye proprietary **oculus_sdk** (shared by the technical support team).<br/>
 
-Some useful documents to develop the sonar software and use it are collected in the [docs](docs/) folder of this repo.
+Some useful documents to develop the sonar software and use the sensor are collected in the [docs](docs/) folder of this repo.
 
 ## Requirements
 

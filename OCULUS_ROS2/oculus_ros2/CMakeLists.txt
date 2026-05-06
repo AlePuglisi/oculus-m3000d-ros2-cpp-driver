@@ -142,7 +142,6 @@ install(PROGRAMS
             scripts/oculus_to_rosbag.py 
             scripts/oculus_subscriber_to_image.py
             scripts/oculus_optical_flow.py
-            scripts/imaging_sonar_optical_flow_pose.py
         DESTINATION lib/${PROJECT_NAME})
 
 

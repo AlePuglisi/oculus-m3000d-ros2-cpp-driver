@@ -11,7 +11,7 @@
     # 1: Low frequency (1.2MHz, wide aperture).
     # 2: High frequency (3.0MHz, narrow aperture).
 
-    ping_rate: 0 # Frequency of ping fires. Default value is 2.
+    ping_rate: 3 # Frequency of ping fires. Default value is 2.
     # 0: 10Hz max ping rate.
     # 1: 15Hz max ping rate.
     # 2: 40Hz max ping rate.

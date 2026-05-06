@@ -107,8 +107,8 @@ def generate_launch_description():
         oculus_sonar_node,
         sonar_viewer_node,
         sonar_point_cloud_node,
-        sonar_state_estimation_node,
-        #sonar_frame_static_tf_node
+        #sonar_state_estimation_node,
+        sonar_frame_static_tf_node,
         world_frame_static_tf_node,
         robot_state_publisher_node,
         rviz_node

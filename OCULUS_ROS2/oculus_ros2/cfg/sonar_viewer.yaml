@@ -22,8 +22,10 @@
 
     apply_tvg: true
     
-    gain: 3000.
+    gain: 3000.0
 
     enable_fan_grid: false
 
     flip_vertically: true
+
+    pixels_per_meter: 100.0
