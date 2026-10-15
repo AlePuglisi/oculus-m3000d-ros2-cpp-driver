@@ -4,14 +4,17 @@ ROS2 (Jazzy) Driver for the Blueprint subsea Oculus M3000d Sonar.
 
 A C++ (Without ROS) Sonar interface is under development in the [``cpp`` branch of this repo](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/tree/cpp)
 
+The purpose of this driver is to be able to retrieve raw sonar data with custom code during sensor deployment, either in a ROS2 perception-control stack, or in a custom C++ architecture for the robotic system.<br/>
+It is not a substitute of the vendor application [Oculus ViewPoint V2](https://www.blueprintsubsea.com/oculus/support.php).
+
 <image width=852 height=470 src=docs/images/Oculus_Driver_Overview.png>
 
 ###  Software "Development": Updating Extisting Drivers
 
 This package is adapted and extended from the M1200d [ROS2 Driver](https://github.com/godardma/oculus_ros2/tree/main) by ENSTA Bretagne Robotics, and the underlying low level Driver [Sonar Interface](https://github.com/ENSTABretagneRobotics/oculus_driver)<br/>
-The mentioned M1200d software has been updated for the M3000d using the blueye proprietary **oculus_sdk** (shared by the technical support team).<br/>
+The mentioned M1200d software has been updated for the M3000d using the blueye proprietary [**oculus_sdk**](./reference_oculus_sdk/) (shared by the technical support team).<br/>
 
-Some useful documents to develop the sonar software and use the sensor are collected in the [docs](docs/) folder of this repo.
+Some useful PDF documents to develop the sonar software, use the sensor and interpret the data are collected in the [docs](docs/) folder of this repo.
 
 ## Requirements
 
@@ -52,11 +55,71 @@ oculus-ros2-cpp-driver/
 ```
 
 
-## Installation 
+## Installation (Tested on Ubuntu 24.04 + ROS2 Jazzy) 
 
 ### 0) Setting Up the Workspace
 
 1. **Install and set up [ROS2 jazzy](http://wiki.ros.org/ROS/Installation)**
+
+    <details> 
+    <summary> Install and Set Up ROS2 Jazzy </summary>
+    
+    - **Install** ROS Jazzy and source 
+    Refer to [ros documentation](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html) for the step-by-step installation tutorial. <br/>
+
+    Anytime you open a new terminal, you should source your underlay ros environment with:
+    ```
+    # Terminal
+    # Replace ".bash" with your shell if you're not using bash
+    # Possible values are: setup.bash, setup.sh, setup.zsh
+    source /opt/ros/jazzy/setup.bash
+    ```
+    To avoid doing it every time, add that command to your ``bashrc``, opening it with a text editor of your choice:
+    ```
+    # Terminal (use your preferred text editor tool)
+    gedit ~/.bashrc
+    ```
+    And add the line ``source /opt/ros/jazzy/setup.bash`` at the end.
+
+    - If not automatically installed, **install ``colcon``**, the build tool for ROS2: 
+    ```
+    # Terminal
+    sudo apt install python3-colcon-common-extensions
+    ```
+
+    - Create and build a **ros2 workspace** to position this project packages:<br/>
+    In your preferred directory
+    ```
+    # Terminal
+    mkdir sonar_ws
+    cd sonar_ws
+    mkdir src
+    colcon build
+    ```
+
+    - **Source** your ros2 workspace and the colcon argmícomplete environment:<br/>
+    As done for the ros underlay, you need to source the overlay setup.bash when you build it, again you can add that to the bashrc
+    ```
+    # Terminal
+    gedit ~/.bashrc
+    ```
+    Add the line ``source ~/sonar_ws/install/setup.bash`` <br/>
+    and ``source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash`` to complete colocn commands by pressing Tab.
+
+    ### Install Additional Packages
+    To launch this project packages, you may need ROS2 packages not installed with ros-jazzy-desktop. <br/>
+    I will update this list during implementation:
+
+    - ``xacro``
+    - ``image_transport``
+    - ...
+
+    ```
+    # Terminal
+    sudo apt install ros-${ROS_DISTRO}-xacro ros-${ROS_DISTRO}-image-transport
+    ```
+    </details>
+    <br/>
 
 2. **Create the ros2 workspace**
 
@@ -134,6 +197,10 @@ oculus-ros2-cpp-driver/
     sudo make -j4 install
     ```
 
+    This will install the driver at the system level (in /usr/local/lib), not locally in the workspace. 
+    If you want the driver to be installed only inside of the workspace you should modify the `oculus_driver_lib` [CMakeLists.txt](./oculus_driver_lib/CMakeLists.txt). Or use an Explicit Building Commands where `DCMAKE_INSTALL_PREFIX` indicate a different install path. 
+    Notice that if the `oculus_driver` library is installed elsewhere, also `oculus_ros2` CMakeLists will need some changes to properly find the library.
+
 ### 2) Build the oculus_ros2 package
 
 If all the steps above compiled without errors, you currently have a ros2 workspace ready to be built and the oculus_driver library properly installed. 
@@ -168,7 +235,7 @@ In your computer configure the ethernet connection in IPv4 with  <br/>
 **IPv4 Method**: `Manual` <br/>
 **Addresses**: Address = x1.x2.x3.x4+1 where x1.x2.x3.x4 is the sonar ip | Netmask = 255.255.255.0 <br/>
 
-The sonar ip x1.x2.x3.x4 can be found easily by opening the Oculus ViewPoint app and searching for the connected devices. 
+The sonar ip x1.x2.x3.x4 can be found easily by opening the [Oculus ViewPoint](https://www.blueprintsubsea.com/oculus/support.php) app and searching for the connected devices. 
 
 
 ## Quick Start Using the Driver 
@@ -178,7 +245,7 @@ To start the oculus M3000d driver, different launch files are available for basi
 **IMPORTANT**: With the current implementation, you cannot start the ros2 driver while the Oculus ViewPoint is running. 
 If you try to launch any of the ROS2 driver scripts with the ViewPoint visualization running, it will not work. 
 
-**IMPORTANT**: Be sure that you don't have any firewall active on your device. This can cause connection problem both in the ViewPoint and with the ROS2 driver. You can disable it in a terminal byb running the following command: 
+**IMPORTANT**: Be sure that you don't have any firewall active on your device. This can cause connection problem both in the ViewPoint and with the ROS2 driver. You can disable it in a terminal by running the following command: 
 ```
 sudo ufw disable
 ```
@@ -255,7 +322,9 @@ The configuartion `.yaml` files are extensively commented to understand what eac
 
     **TAKE CARE**: If the full oculus stack is running, including the point cloud and high resolution cartesian images, bag files can be EXTREMELY heavy if all messages are stored. 
 
-    For example, the most important data published during sonar usage are stored in `/ping` message. If `the oculus_sonar_node` is running under the `sonar` namespace, you can store the ping messages as: 
+    For example, the most important data published during sonar usage are stored in `/ping` message. The `/ping` topic 
+    in fact stores all the acoustic echo recorded by the oculus receiver, that can be then processed with the `sonar_viewer` node.  
+    If `the oculus_sonar_node` is running with the `sonar` namespace, you can store the ping messages as: 
 
     ```
     ros2 bag record /sonar/ping
@@ -486,11 +555,11 @@ It uses the ROS cv_bridge utils to convert ROS images in the OpenCV format, read
   
 </details>
 
-## Problems, Known Bugs, and Possible Improvements
+## Problems and Possible Improvements
 
 List of software/hardware known problems, bugs and ideas for further improvements. 
 
-### Problems and Bugs
+### Problems and Bugs to Solve
 
 - **Changing the Gain in High Frequency Mode** <br/>
     You may be surprised when reconfguring the gain in high frequency mode, the number that you will set won't be the one reflected in the ros2 parameter. <br/>
@@ -508,6 +577,20 @@ List of software/hardware known problems, bugs and ideas for further improvement
     ```
     As you can see, a proper value rescaling is performed when sending the request to the sonar. <br/>
     I haven't tested the behavior without this yet. 
+
+- **Reconfiguring Sensor Publish Rate** <br/>
+    From the last tests it looks like the sensor publish rate is limited to maximum 7fps even when reconfiguring it to higher publish frequency.
+    This is a relevant problem that must be solved to operate the sonar efficiently in the field
+
+- **Running Sonar + IP Cam** <br/>
+    When both the sonar and ip camera (sony) run simultaneously, it looks like they are overloading the ethernet communication and multiple frames 
+    of the sonar are lost periodically. This is a relevant issue to address in order to deploy both camera and sonar in the field. 
+
+### To Test 
+
+- **Sonar + USB Cam**><br/>
+    The same problem of the IP Camera occurs?
+
 
 ### To Do and Ideas 
 
