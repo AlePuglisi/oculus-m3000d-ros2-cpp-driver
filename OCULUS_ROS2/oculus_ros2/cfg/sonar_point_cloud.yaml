@@ -1,7 +1,7 @@
 /**:
   ros__parameters:
 
-    pixels_per_meter: 250.0
+    pixels_per_meter: 100.0
 
     intensity_threshold: 80
 

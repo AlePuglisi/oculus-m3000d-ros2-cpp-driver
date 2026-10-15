@@ -92,6 +92,7 @@ private:
      * @param range: range of interest [m]
      * @param alpha: absorption coefficient (0.3 at 1MHz in seawater) [dB/m]
      * 
+     * @return loss: transmission loss due to geometric divergence and water absorption 
      */                    
     float TL_M3000d_(float range, float alpha); 
 };

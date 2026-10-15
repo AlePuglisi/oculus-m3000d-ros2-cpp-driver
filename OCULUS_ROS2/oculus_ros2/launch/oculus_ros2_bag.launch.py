@@ -83,6 +83,7 @@ def generate_launch_description():
         namespace="sonar",
         output="screen",
         remappings=[
+            ('fan_image', 'fan_image/now'),
             ('sonar_point_cloud', 'sonar_point_cloud/now'),
         ]
     )
@@ -161,14 +162,15 @@ def generate_launch_description():
         bag_play_process,
         oculus_sonar_node,
         sonar_viewer_node,
-        #sonar_optical_flow_node
-        #imaging_sonar_optical_flow_pose_node
-        #sonar_saver_node
-        #sonar_point_cloud_node
-        #sonar_state_estimation_node,
+        sonar_point_cloud_node,
         world_frame_static_tf_node,
         sonar_frame_static_tf_node,
         robot_state_publisher_node, 
-        #jointstate_publisher_gui
         rviz_node
+        #sonar_state_estimation_node,
+        #sonar_optical_flow_node,
+        #imaging_sonar_optical_flow_pose_node,
+        #sonar_saver_node,
+        #jointstate_publisher_gui
+
     ])

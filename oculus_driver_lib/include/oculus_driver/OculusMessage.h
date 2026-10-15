@@ -16,6 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *****************************************************************************/
 
+/******************************************************************************
+ * Alessandro Puglisi - RSM,LIRMM - 2026
+ * Oculus M3000d Driver Update (C++, ROS2)
+ * This header define all the useful data structures to wrap the sonar messages,
+ * on top of the Oculus.h basic structures.
+******************************************************************************/
+
 #ifndef _DEF_OCULUS_DRIVER_OCULUS_MESSAGE_H_
 #define _DEF_OCULUS_DRIVER_OCULUS_MESSAGE_H_
 

@@ -45,7 +45,7 @@ SonarViewer::SonarViewer()
     //         queue_cv_.notify_one();
     //     });
 
-    processing_thread_ = std::thread(&SonarViewer::processing_loop, this);
+    // processing_thread_ = std::thread(&SonarViewer::processing_loop, this);
 
     this->rtheta_publisher_ = this->create_publisher<sensor_msgs::msg::Image>("rtheta_image", 1);
     this->xy_publisher_ = this->create_publisher<sensor_msgs::msg::Image>("fan_image", 1);

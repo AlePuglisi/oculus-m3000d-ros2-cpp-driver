@@ -16,6 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *****************************************************************************/
 
+/******************************************************************************
+ * Alessandro Puglisi - RSM,LIRMM - 2026
+ * Oculus M3000d Driver Update (C++, ROS2)
+ * The AsyncService handles I/O functionalities with thread safety.
+ * In this software it is used to handle the sonar usage asynchronously
+******************************************************************************/
+
 #ifndef _DEF_OCULUS_DRIVER_ASYNC_SERVICE_H_
 #define _DEF_OCULUS_DRIVER_ASYNC_SERVICE_H_
 

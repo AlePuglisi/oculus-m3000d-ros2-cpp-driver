@@ -381,15 +381,37 @@ The configuartion `.yaml` files are extensively commented to understand what eac
 Preliminary notes on how the Oculus M3000d Sonar generate the acoustic images readings and how they are stored in the ROS2 driver.<br/>
 To read more about the Data Structure Definitions, read the official [documentation file](docs/NT-148-D00527-06_Oculus_Data_Structure_Definitions.pdf)
 
-### Oculus SDK Messages 
+### Oculus Network Communication 
 
-### Oculus ROS2 Messages 
+As indicated in the sdk [documentation file](docs/NT-148-D00527-06_Oculus_Data_Structure_Definitions.pdf), the sensor communicate with the 
+processor (computer or embedded system) with both UDP and TCP. <br/>
 
-To see the source code of the custom oculus ROS2 Messages, explore the `msg` definition in the [oculus_interfaces](OCULUS_ROS2/oculus_interfaces) package.  
+**UDP Socket (Port: 52102)**<br/>
+Used for the status diagram message at 1 Hz. Stores sensor IP and health information. 
+
+The UDP port number is used by the low level oculus_driver to retrieve the IP and establish TCP connection.
+This is done once the driver class is initialized in the `oculus_sonar_node` set up.
+
+**TCP Socket (Port: 52100)**<br/>
+Channel for control signals and sensor data. <br/>
+The sonar pinging works for a limited amount of time, therefore a new request have to be transmitted periodically to keep the imaging alive at the pingRate requested.
+
+### Oculus SDK Messages (Relevant Ones)
+
+To see the overall source code of the proprietary oculus Messages, explore the msg definition in [Oculus.h](./oculus_driver_lib/include/oculus_driver/Oculus.h) package, and the wrappers in [OculusMessage.h](./oculus_driver_lib/include/oculus_driver/OculusMessage.h).
+
+
+### Oculus ROS2 Messages (Relevant Ones)
+
+To see the overall source code of the custom oculus ROS2 Messages, explore the `msg` definition in the [oculus_interfaces](OCULUS_ROS2/oculus_interfaces) package.  
+
+- [`Ping`](./OCULUS_ROS2/oculus_interfaces/msg/Ping.msg): Complete information about sonar ping return, including raw acoustic return matrix
+- [`OculusPing2`](./OCULUS_ROS2/oculus_interfaces/msg/OculusPing2.msg): 
+- [`OculusStatus`](./OCULUS_ROS2/oculus_interfaces/msg/OculusStatus.msg):  
 
 ### Acoustic Image Formation Process 
 
-Generic high level description of the logic behind acoustic images formation process. 
+Generic highoverall level description of the logic behind acoustic images formation process. 
 
 ### Oculus Sonar Logic
 
@@ -431,6 +453,8 @@ Calibrating the sensor for the static bias and filtering the noise, it should pr
 
 Software structure of the low level C++ Sonar Driver and the overlay ROS2 Interface. 
 
+Here the high level details such as design choices and software relations are explained. Refer to the comment on the source code for further details on the implementation choices.  
+
 ### Low Level Driver (oculus_driver)
 
 C++ library to interface with the Sonar Hardware.
@@ -448,14 +472,11 @@ Other features will be integrated according to research task requrements.
 ### oculus_interface
 
 [This package](OCULUS_ROS2/oculus_interfaces/) contains the custom ROS2 sonar messages interfaces. <br/>
-It allow to exchange in the ROS network equivalent informatioon to the ones used by the propritary software.
+It allows to exchange in the ROS network equivalent informatioon to the ones used by the propritary software.
 
-These ROS2 messages reproduce the official oculus sdk messages data structures.
+These ROS2 messages wrap the official oculus [SDK](./oculus_driver_lib/include/oculus_driver/OculusMessage.h) messages data structures, 
+converted by [conversions.hpp](./OCULUS_ROS2/oculus_ros2/include/oculus_ros2/conversions.hpp)
 
-<details close>
-<summary>Implementation Details</summary>
-  
-</details>
 
 ### oculus_ros2
 
@@ -467,11 +488,6 @@ These ROS2 messages reproduce the official oculus sdk messages data structures.
 This utils code implements conversions from oculus messages to ROS2 messages.
 
 When the ``oculus_sonar_node`` receives the sonar messages from the low level driver instance, it rely on these methods to ROSify them and publish on the ROS network.  
-
-<details close>
-<summary>Implementation Details</summary>
-  
-</details>
 
 
 #### [``oculus_sonar_node``](OCULUS_ROS2/oculus_ros2/include/oculus_ros2/oculus_sonar_node.hpp)
@@ -489,10 +505,6 @@ The sensor configuration is handled by this node ROS parameters, initialized by 
 The node implements the parameter reconfiguration callback, sending **dynamic reconfiguration** request to the sonar. <br/>
 NOTE: This part is still under development and adjustments.
 
-<details close>
-<summary>Implementation Details</summary>
-  
-</details>
 
 #### [``sonar_viewer_node``](OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_viewer_node.hpp)
 
@@ -515,20 +527,11 @@ Be carefully on how you combine the two pre-processing features. <br/>
 By applying the TVG without removing the AGC (remove_agc = false, apply_tvg = true) the sensor readings will be satured by applying correction gain twice (both AGC and TL).  
 
 
-<details close>
-<summary>Implementation Details</summary>
-  
-</details>
-
 #### [``sonar_point_cloud_node``](OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_point_cloud_node.hpp)
 This Node publishes a point cloud computed from the cartesian sonar image. <br/>
 The points are selcted as the ones with pixel intensity (echo intensity) higher than a specified user threshold. 
 Due to the acoustic image formation model, this naive solution form a point cloud in sonar zero elevation plane (where the sonar frustum is projected). 
 
-<details close>
-<summary>Implementation Details</summary>
-  
-</details>
 
 #### [``sonar_state_estimation_node``](OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_state_estimation_node.hpp)
 
@@ -538,11 +541,6 @@ After the sensor readings, the pose (depth position + orientation) is published 
 This allow a visualization of the sonar frame in rviz (a 3D textured model and a sensor URDF description is defined in the package)
 
 
-<details close>
-<summary>Implementation Details</summary>
-  
-</details>
-
 #### [``sonar_saver_node``](OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_saver_node.hpp)
 
 This Node should be runned to save **all** the cartesian and polar acoustic images inside of a specified output directory. 
@@ -550,10 +548,6 @@ This Node should be runned to save **all** the cartesian and polar acoustic imag
 It uses the ROS cv_bridge utils to convert ROS images in the OpenCV format, ready to be saved in the desired image compression format.  
 
 
-<details close>
-<summary>Implementation Details</summary>
-  
-</details>
 
 ## Problems and Possible Improvements
 
@@ -563,7 +557,7 @@ List of software/hardware known problems, bugs and ideas for further improvement
 
 - **Changing the Gain in High Frequency Mode** <br/>
     You may be surprised when reconfguring the gain in high frequency mode, the number that you will set won't be the one reflected in the ros2 parameter. <br/>
-    This is what is stated in the SonarDruver source code of the low level oculus_driver_lib: <br/>
+    This is what is stated in the SonarDruver source code of the low level `oculus_driver_lib`: <br/>
     ```
     // When masterMode = 2, the sonar force gainPercent between 40& and
     // 100%, BUT still needs resquested gainPercent to be between 0%
@@ -588,7 +582,7 @@ List of software/hardware known problems, bugs and ideas for further improvement
 
 ### To Test 
 
-- **Sonar + USB Cam**><br/>
+- **Sonar + USB Cam**<br/>
     The same problem of the IP Camera occurs?
 
 

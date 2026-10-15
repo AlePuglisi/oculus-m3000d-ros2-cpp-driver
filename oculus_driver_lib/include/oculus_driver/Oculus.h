@@ -16,6 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *****************************************************************************/
+/******************************************************************************
+ * Alessandro Puglisi - RSM,LIRMM - 2026
+ * Oculus M3000d Driver Update (C++, ROS2)
+ * This header define all the basic data structures included in the sonar messages
+******************************************************************************/
 
 // Changed pragma once to classical header guards to be able to include both
 // this file and the deprecated driver library header file in the same source
@@ -24,6 +29,7 @@
 // and the one from the old library are included and it (rightfully) cause
 // multiple definition errors.
 //#pragma once
+
 #ifndef _DEF_OCULUS_DRIVER_OCULUS_TYPES_H_
 #define _DEF_OCULUS_DRIVER_OCULUS_TYPES_H_
 
