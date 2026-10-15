@@ -1,6 +1,6 @@
 # Oculus M3000d Sonar ROS2 Driver Documentation
 
-ROS2 (Jazzy) Driver for the Blueprint subsea Oculus M3000d Sonar. 
+ROS2 (Jazzy) Driver for the Blueprint Subsea Oculus M3000d Dual-Frequency Multibeam Sonar. 
 
 A C++ (Without ROS) Sonar interface is under development in the [``cpp`` branch of this repo](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/tree/cpp)
 
@@ -12,7 +12,7 @@ It is not a substitute of the vendor application [Oculus ViewPoint V2](https://w
 ###  Software "Development": Updating Extisting Drivers
 
 This package is adapted and extended from the M1200d [ROS2 Driver](https://github.com/godardma/oculus_ros2/tree/main) by ENSTA Bretagne Robotics, and the underlying low level Driver [Sonar Interface](https://github.com/ENSTABretagneRobotics/oculus_driver)<br/>
-The mentioned M1200d software has been updated for the M3000d using the blueye proprietary [**oculus_sdk**](./reference_oculus_sdk/) (shared by the technical support team).<br/>
+The mentioned M1200d software has been updated for the M3000d using the up-to-date Blueye proprietary [oculus_sdk](./reference_oculus_sdk/)(shared by the technical support team).<br/>
 
 Some useful PDF documents to develop the sonar software, use the sensor and interpret the data are collected in the [docs](docs/) folder of this repo.
 

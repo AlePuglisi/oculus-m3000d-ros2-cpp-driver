@@ -12,9 +12,9 @@ OculusSonarNode::OculusSonarNode()
     temperature_stop_limit_(this->declare_parameter<double>("temperature_stop", params::TEMPERATURE_STOP_DEFAULT_VALUE)) {
   
   RCLCPP_INFO(this->get_logger(), "Initializing the node ...");
-  this->status_publisher_ = this->create_publisher<oculus_interfaces::msg::OculusStatus>("status", 1);
-  this->ping_publisher_ = this->create_publisher<oculus_interfaces::msg::Ping>("ping", 1);
-  this->oculus_ping_publisher_ = this->create_publisher<oculus_interfaces::msg::OculusPing2>("oculus_ping", 1);
+  this->ping_publisher_ = this->create_publisher<oculus_interfaces::msg::Ping>("ping", 10);
+  this->oculus_ping_publisher_ = this->create_publisher<oculus_interfaces::msg::OculusPing2>("oculus_ping", 10);
+  this->status_publisher_ = this->create_publisher<oculus_interfaces::msg::OculusStatus>("status", 10);
   this->temperature_publisher_ = this->create_publisher<sensor_msgs::msg::Temperature>("temperature", 1);
   this->pressure_publisher_ = this->create_publisher<sensor_msgs::msg::FluidPressure>("pressure", 1);
 

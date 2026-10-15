@@ -32,7 +32,20 @@ SonarViewer::SonarViewer()
       RCLCPP_INFO(this->get_logger(), "Warning, if the AGC is not removed the application of the TVG is not necessary");
 
     // Initialize ROS subscribers and Publihsers
-    this->ping_subscriber_ = this->create_subscription<oculus_interfaces::msg::Ping>("ping", 1, std::bind(&SonarViewer::pingCallback_, this, std::placeholders::_1));
+    this->ping_subscriber_ = this->create_subscription<oculus_interfaces::msg::Ping>(
+        "ping", 10, std::bind(&SonarViewer::pingCallback_, this, std::placeholders::_1));
+    // Possible Multithread Implementation of the ping processing
+    // this->ping_subscriber_ = this->create_subscription<oculus_interfaces::msg::Ping>(
+    //     "ping", 10,
+    //     [this](oculus_interfaces::msg::Ping::UniquePtr msg) {
+    //         std::lock_guard<std::mutex> lock(queue_mutex_);
+    //         if (ping_queue_.size() < 3) {  // drop if falling behind, don't accumulate
+    //             ping_queue_.push(std::move(*msg));
+    //         }
+    //         queue_cv_.notify_one();
+    //     });
+
+    processing_thread_ = std::thread(&SonarViewer::processing_loop, this);
 
     this->rtheta_publisher_ = this->create_publisher<sensor_msgs::msg::Image>("rtheta_image", 1);
     this->xy_publisher_ = this->create_publisher<sensor_msgs::msg::Image>("fan_image", 1);
@@ -44,8 +57,12 @@ SonarViewer::SonarViewer()
 
 SonarViewer::~SonarViewer()
 {
-    // For now not a lot handled, just log 
-    RCLCPP_INFO(this->get_logger(), "Shutting down Scientifc Viewer");
+    // Possible Multithread Implementation of the ping processing
+    // quit_ = true;
+    // queue_cv_.notify_all();
+    // if (processing_thread_.joinable())
+    //     processing_thread_.join();
+    RCLCPP_INFO(this->get_logger(), "Shutting down Sonar Viewer");
 }
 
 rcl_interfaces::msg::SetParametersResult SonarViewer::parametersCallback_(
@@ -92,6 +109,21 @@ rcl_interfaces::msg::SetParametersResult SonarViewer::parametersCallback_(
     return result;
 }
 
+// Possible Multithread Implementation of the ping processing
+// void SonarViewer::processing_loop()
+// {
+//     while (!quit_) {
+//         oculus_interfaces::msg::Ping msg;
+//         {
+//             std::unique_lock<std::mutex> lock(queue_mutex_);
+//             queue_cv_.wait(lock, [this] { return !ping_queue_.empty() || quit_; });
+//             if (quit_) break;
+//             msg = std::move(ping_queue_.front());
+//             ping_queue_.pop();
+//         }
+//         pingCallback_(msg);  // heavy processing now off the executor thread
+//     }
+// }
 
 float SonarViewer::TL_M3000d_(float range, float alpha = 0.3)
 {
@@ -503,8 +535,15 @@ sensor_msgs::msg::CompressedImage compressImageMsg(const sensor_msgs::msg::Image
 
 int main(int argc, char * argv[])
 {
-  rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<SonarViewer>());
-  rclcpp::shutdown();
-  return 0;
+    rclcpp::init(argc, argv);
+    rclcpp::spin(std::make_shared<SonarViewer>());
+
+    // Possible Multithread Implementation of the ping processing
+    // rclcpp::executors::MultiThreadedExecutor executor;
+    // auto node = std::make_shared<SonarViewer>();
+    // executor.add_node(node);
+    // executor.spin();
+    
+    rclcpp::shutdown();
+    return 0;
 }

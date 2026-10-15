@@ -1,6 +1,9 @@
 #ifndef OCULUS_ROS2__SONAR_VIEWER_NODE_HPP_
 #define OCULUS_ROS2__SONAR_VIEWER_NODE_HPP_
 
+#include <queue>
+#include <condition_variable>
+
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/image.hpp"
 #include "sensor_msgs/msg/compressed_image.hpp"
@@ -21,6 +24,14 @@ public:
 
 private:
 
+    // Possible Multithread implementation for the echo processing
+    // std::queue<oculus_interfaces::msg::Ping> ping_queue_;
+    // std::mutex queue_mutex_;
+    // std::condition_variable queue_cv_;
+    // std::thread processing_thread_;
+    // std::atomic<bool> quit_{false};
+    // void processing_loop();
+    
     bool remove_agc_;           // Flag for Adaptive Gain Control (AGC) removal
     bool apply_tvg_;            // Flag for Time Variable Gain (TVG) application 
     double gain_applied_;       // Gain applied on sonar echo (ovveride sonar gain)
@@ -32,7 +43,6 @@ private:
     rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr rtheta_publisher_;                      // ROS Publihser of Polar Image
     rclcpp::Publisher<sensor_msgs::msg::CompressedImage>::SharedPtr rtheta_compressed_publisher_; // ROS Publihser to Compressed Polar Image
     rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr xy_publisher_;                          // ROS Publihser to Cartesian Image
-
 
     OnSetParametersCallbackHandle::SharedPtr callback_handle_;  // ROS callback handler for paramter update
     
