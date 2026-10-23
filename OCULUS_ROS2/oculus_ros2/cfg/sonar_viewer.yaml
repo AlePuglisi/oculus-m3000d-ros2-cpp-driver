@@ -1,4 +1,3 @@
-
 # remove_agc correct for automatic sonar gain, applied by default at range level to compensate range-dependent signal loss 
 # apply_tvg  use a physically accurate gain (geometric + absorption loss)
 

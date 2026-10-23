@@ -11,6 +11,9 @@ def generate_launch_description():
     viewer_config = os.path.join(
         get_package_share_directory("oculus_ros2"), "cfg", "sonar_viewer.yaml"
     )
+    saver_config = os.path.join(
+        get_package_share_directory("oculus_ros2"), "cfg", "sonar_saver.yaml"
+    )
 
     bag_path_arg = DeclareLaunchArgument(
         'bag_path',
@@ -32,6 +35,7 @@ def generate_launch_description():
         package="oculus_ros2",
         executable="sonar_saver_node",
         name="sonar_saver",
+        parameters=[saver_config],
         namespace="sonar",
         output="screen",
     )

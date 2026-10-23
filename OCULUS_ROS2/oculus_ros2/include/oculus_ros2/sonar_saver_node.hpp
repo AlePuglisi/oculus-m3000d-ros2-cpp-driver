@@ -19,8 +19,7 @@
 
 #include <sstream>
 #include <iomanip>
-
-#define OUTPUT_DIR "/home/ale/sonar_ws/src/oculus-ros2-cpp-driver/OCULUS_ROS2/Data/images/sonar/2026_02_06_14_15/"
+#include <filesystem>
 
 class SonarSaver : public rclcpp::Node
 {
@@ -33,6 +32,8 @@ private:
     void ping_callback_(const oculus_interfaces::msg::Ping & msg);
     void cartesian_image_callback_(const sensor_msgs::msg::Image & msg);
     void polar_image_callback_(const sensor_msgs::msg::Image & msg);
+    // Utils
+    void create_output_dir_(std::string output_dir, std::string bag_name);
 
     rcl_interfaces::msg::SetParametersResult parametersCallback(
         const std::vector<rclcpp::Parameter> &parameters);
@@ -47,6 +48,9 @@ private:
 
     // Configuration
     double pixels_per_meter_;
+    std::string bag_name_;
+    std::string output_path_;
+    std::string output_dir_;
 
     // State
     oculus_interfaces::msg::Ping last_ping_msg_;

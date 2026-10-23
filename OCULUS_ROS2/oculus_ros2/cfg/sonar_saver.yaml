@@ -1,0 +1,9 @@
+/**:
+  ros__parameters:
+
+      pixels_per_meter: 100.0
+
+      bag_name: "rosbag2_year_month_day-hour_miute_second"
+
+      output_dir: "/home/ale/sonar_ws/src/oculus-ros2-cpp-driver/datasets/"
+

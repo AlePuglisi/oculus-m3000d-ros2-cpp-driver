@@ -4,13 +4,20 @@ SonarSaver::SonarSaver()
     : Node("sonar_saver")
 {
     // Declare parameters
-    this->declare_parameter<double>("pixels_per_meter", 250.0);
+    this->declare_parameter<double>("pixels_per_meter", 100.0);
+    this->declare_parameter<std::string>("dir_name", "year_month_day_hour_minute_second");
+    this->declare_parameter<std::string>("output_path", "/path/to/images/dir");
 
     // Get parameters
     this->pixels_per_meter_ = this->get_parameter("pixels_per_meter").as_double();
+    this->output_path_ = this->get_parameter("output_path").as_string();
+    this->bag_name_ = this->get_parameter("bag_name").as_string();
+
+    this->create_output_dir_(output_path_, bag_name_);
 
     //RCLCPP_INFO(this->get_logger(), "Sonar Saver Parameters:");
 
+    // Set Up Subscribers
     ping_subscriber_ = this->create_subscription<oculus_interfaces::msg::Ping>(
         "ping", 1, std::bind(&SonarSaver::ping_callback_, this, std::placeholders::_1));
     
@@ -20,6 +27,7 @@ SonarSaver::SonarSaver()
     polar_image_subscriber_ = this->create_subscription<sensor_msgs::msg::Image>(
         "rtheta_image", 1, std::bind(&SonarSaver::polar_image_callback_, this, std::placeholders::_1));
 
+    // Set Up Parameter Callback
     callback_handle_ = this->add_on_set_parameters_callback(
         std::bind(&SonarSaver::parametersCallback, this, std::placeholders::_1));
 
@@ -48,6 +56,20 @@ rcl_interfaces::msg::SetParametersResult SonarSaver::parametersCallback(
     return result;
 }
 
+void SonarSaver::create_output_dir_(std::string output_path, std::string bag_name)
+{
+    this->output_dir_ = output_path + bag_name + "/sonar/";
+
+    if (std::filesystem::exists(output_dir_))
+        std::filesystem::remove_all(output_dir_);
+
+    std::filesystem::create_directory(output_dir_ + "polar/");
+    std::filesystem::create_directory(output_dir_ + "cartesian/");
+
+    RCLCPP_INFO(this->get_logger(), "Created directory to store images");
+
+}
+
 void SonarSaver::ping_callback_(const oculus_interfaces::msg::Ping & sonar_ping_msg)
 {
     // Store ping info for potential use in point cloud generation
@@ -63,7 +85,7 @@ void SonarSaver::cartesian_image_callback_(const sensor_msgs::msg::Image & image
 
         std::string image_path;
         std::stringstream ss; 
-        ss << OUTPUT_DIR << "cartesian/" << image_cartesian_msg.header.stamp.sec << "_" << image_cartesian_msg.header.stamp.nanosec << ".png";
+        ss << output_dir_ << "cartesian/" << image_cartesian_msg.header.stamp.sec << "_" << image_cartesian_msg.header.stamp.nanosec << ".png";
         image_path = ss.str();
 
         cv::imwrite(image_path, cartesian_frame);
@@ -80,7 +102,7 @@ void SonarSaver::polar_image_callback_(const sensor_msgs::msg::Image & image_pol
 
         std::string image_path;
         std::stringstream ss; 
-        ss << OUTPUT_DIR << "polar/" << image_polar_msg.header.stamp.sec << "_" << image_polar_msg.header.stamp.nanosec << ".png";
+        ss << output_dir_ << "polar/" << image_polar_msg.header.stamp.sec << "_" << image_polar_msg.header.stamp.nanosec << ".png";
         image_path = ss.str();
 
         cv::imwrite(image_path, cartesian_frame);
