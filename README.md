@@ -7,21 +7,30 @@ A C++ (Without ROS) Sonar interface is under development in the [``cpp`` branch 
 The purpose of this driver is to be able to retrieve raw sonar data with custom code during sensor deployment, either in a ROS2 perception-control stack, or in a custom C++ architecture for the robotic system.<br/>
 It is not a substitute of the vendor application [Oculus ViewPoint V2](https://www.blueprintsubsea.com/oculus/support.php).
 
-<image width=852 height=470 src=docs/images/Oculus_Driver_Overview.png>
+<p>
+    <img width=1000 src=docs/images/Oculus_Driver_Overview.png alt>
+</p>
+<p>
+    <em>Fig1: ROS2 Communication architecture. The oculus_sonar node instantiate a driver client to  establish TCP/UDP communication with the hardware.
+    The sonar_viewer processes the received processed echo to cartesian (fan) and polar image, while the sonar_point_cloud node publish the planar point cloud by thresholding high intensity echoes. sonar_state_estimation is a prototype using the sensor AHRS and pressure sensor to estimate sensor pose, but currently it not reliable.</em>
+</p>
 
 ###  Software "Development": Updating Extisting Drivers
 
-This package is adapted and extended from the M1200d [ROS2 Driver](https://github.com/godardma/oculus_ros2/tree/main) by ENSTA Bretagne Robotics, and the underlying low level Driver [Sonar Interface](https://github.com/ENSTABretagneRobotics/oculus_driver)<br/>
-The mentioned M1200d software has been updated for the M3000d using the up-to-date Blueye proprietary [oculus_sdk](./reference_oculus_sdk/)(shared by the technical support team).<br/>
+This package is adapted and extended from the M1200d [ROS2 Driver](https://github.com/godardma/oculus_ros2/tree/main) by ENSTA Bretagne Robotics, and the underlying low level Driver [Sonar Interface](https://github.com/ENSTABretagneRobotics/oculus_driver).<br/>
+The mentioned M1200d software has been updated for the M3000d using the up-to-date Blueye proprietary [oculus_sdk](./reference_oculus_sdk/) (shared by the technical support team).<br/>
 
 Some useful PDF documents to develop the sonar software, use the sensor and interpret the data are collected in the [docs](docs/) folder of this repo.
 
 ## Requirements
 
-This ROS2 metapackage (with the low-level sonar driver) was developed and tested using:
+This ROS2 metapackage (with the low-level sonar driver) was developed, tested, and built using:
 * Ubuntu 24.04 LTS
 * ROS2 jazzy
 * CMake 3.28.3
+
+I'm planning to provide a Dockerfile and the relative instructions to build the image and run it with Docker from any machine.
+(The current [docker](./docker/) set up has not been tested)
 
 ## Documentation Contents
 
@@ -36,13 +45,13 @@ This ROS2 metapackage (with the low-level sonar driver) was developed and tested
 
 ## Repository Structure
 
-This repository contains all the code necessary to build and use the blueprint subsea oculus M3000d sonar driver. Moreover, it include the original proprietary sdk (the one used in the official blueprint ViewPointv2) as reference code. Note in fact that the sdk code is not used during the building process. 
+This repository contains all the code necessary to build and use the blueprint subsea oculus M3000d sonar driver. Moreover, it include the original proprietary sdk (the one used in the official blueprint ViewPointv2) as reference code. Note, in fact, that the sdk code is not used during the building process. 
 
 ### Folder Structure
 
 ```
 oculus-ros2-cpp-driver/
-├── docker/                  # Docker configuration files
+├── docker/                  # Docker configuration files (work in progress...)
 ├── docs/                    # Documentation images and files 
 ├── oculus_driver_lib/       # C++ driver library
 ├── oculus_ros2/             # ROS2 packages
@@ -64,67 +73,67 @@ oculus-ros2-cpp-driver/
     <details> 
     <summary> Install and Set Up ROS2 Jazzy </summary>
     
-    - **Install** ROS Jazzy and source 
+    - 1.1) **Install** ROS Jazzy and source 
     Refer to [ros documentation](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html) for the step-by-step installation tutorial. <br/>
 
-    Anytime you open a new terminal, you should source your underlay ros environment with:
-    ```
-    # Terminal
-    # Replace ".bash" with your shell if you're not using bash
-    # Possible values are: setup.bash, setup.sh, setup.zsh
-    source /opt/ros/jazzy/setup.bash
-    ```
-    To avoid doing it every time, add that command to your ``bashrc``, opening it with a text editor of your choice:
-    ```
-    # Terminal (use your preferred text editor tool)
-    gedit ~/.bashrc
-    ```
-    And add the line ``source /opt/ros/jazzy/setup.bash`` at the end.
+        Anytime you open a new terminal, you should source your underlay ros environment with:
+        ```
+        # Terminal
+        # Replace ".bash" with your shell if you're not using bash
+        # Possible values are: setup.bash, setup.sh, setup.zsh
+        source /opt/ros/jazzy/setup.bash
+        ```
+        To avoid doing it every time, add that command to your ``bashrc``, opening it with a text editor of your choice:
+        ```
+        # Terminal (use your preferred text editor tool)
+        gedit ~/.bashrc
+        ```
+        And add the line ``source /opt/ros/jazzy/setup.bash`` at the end.
 
-    - If not automatically installed, **install ``colcon``**, the build tool for ROS2: 
-    ```
-    # Terminal
-    sudo apt install python3-colcon-common-extensions
-    ```
+    - 1.2) If not automatically installed, **install ``colcon``**, the build tool for ROS2: 
+        ```
+        # Terminal
+        sudo apt install python3-colcon-common-extensions
+        ```
 
-    - Create and build a **ros2 workspace** to position this project packages:<br/>
+    - 1.3)** Create and build a **ros2 workspace** to position this project packages:<br/>
     In your preferred directory
-    ```
-    # Terminal
-    mkdir sonar_ws
-    cd sonar_ws
-    mkdir src
-    colcon build
-    ```
+        ```
+        # Terminal
+        mkdir sonar_ws
+        cd sonar_ws
+        mkdir src
+        colcon build
+        ```
 
-    - **Source** your ros2 workspace and the colcon argmícomplete environment:<br/>
+    - **1.4)** **Source** your ros2 workspace and the colcon argmícomplete environment:<br/>
     As done for the ros underlay, you need to source the overlay setup.bash when you build it, again you can add that to the bashrc
-    ```
-    # Terminal
-    gedit ~/.bashrc
-    ```
-    Add the line ``source ~/sonar_ws/install/setup.bash`` <br/>
-    and ``source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash`` to complete colocn commands by pressing Tab.
+        ```
+        # Terminal
+        gedit ~/.bashrc
+        ```
+        Add the line ``source ~/sonar_ws/install/setup.bash`` <br/>
+        and ``source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash`` to complete colocn commands by pressing Tab.
 
-    ### Install Additional Packages
-    To launch this project packages, you may need ROS2 packages not installed with ros-jazzy-desktop. <br/>
-    I will update this list during implementation:
+    - **1.5)** **Install** Additional Packages
+        To launch this project packages, you may need ROS2 packages not installed with ros-jazzy-desktop. <br/>
+        I will update this list during implementation:
 
-    - ``xacro``
-    - ``image_transport``
-    - ...
+        - ``xacro``
+        - ``image_transport``
+        - ...
 
-    ```
-    # Terminal
-    sudo apt install ros-${ROS_DISTRO}-xacro ros-${ROS_DISTRO}-image-transport
-    ```
+        ```
+        # Terminal
+        sudo apt install ros-${ROS_DISTRO}-xacro ros-${ROS_DISTRO}-image-transport
+        ```
     </details>
     <br/>
 
 2. **Create the ros2 workspace**
 
     ```
-    mkdir sonar_ws & cd sonar_ws
+    mkdir sonar_ws && cd sonar_ws
     ```
 3. **Create src directory and build**
     ```
@@ -199,7 +208,7 @@ oculus-ros2-cpp-driver/
 
     This will install the driver at the system level (in /usr/local/lib), not locally in the workspace. 
     If you want the driver to be installed only inside of the workspace you should modify the `oculus_driver_lib` [CMakeLists.txt](./oculus_driver_lib/CMakeLists.txt). Or use an Explicit Building Commands where `DCMAKE_INSTALL_PREFIX` indicate a different install path. 
-    Notice that if the `oculus_driver` library is installed elsewhere, also `oculus_ros2` CMakeLists will need some changes to properly find the library.
+    Notice that if the `oculus_driver` library is installed elsewhere, also `oculus_ros2` CMakeLists may need some changes to properly find the library.
 
 ### 2) Build the oculus_ros2 package
 
@@ -207,7 +216,7 @@ If all the steps above compiled without errors, you currently have a ros2 worksp
 
 The ROS2 packages (oculus_interface + oculus_ros2) building is the usual one.
 
-Be sure to be in the workspace root directory (e.g. ~/sonar_ws) 
+Be sure to be in the workspace root directory (e.g. ~/sonar_ws) and run 
 
 ```
 colcon build 
@@ -223,32 +232,47 @@ If you want to add new features or understand the software structure, refer to [
 ### 1) Sonar-Computer Ethernet Connection 
 
 Connecting the Sonar to the computer (Ethernet connection) <br/>
-**! VERY IMPORTANT !** - Never power on the Sonar when it is not underwater. 
-Connect the plug or switch on the power source only when the sonar is in the water. <br/>
-The elctronics are built to work when surrounded by water, it heats up very quickly and it will **broke** if this is not respected. 
 
-<image width=572 height=410 src=docs/images/Sensor_Set_Up.png>
+
+> [!WARNING]  
+> Never power on the Sonar when it is not underwater. 
+> Connect the plug or switch on the power source only when the sonar is in the water. 
+> The electronics are built to work when surrounded by water (cooling system), it heats up very quickly and it can broke if this is not respected. 
+
+
+<p>
+    <img width=600 src=docs/images/Sensor_Set_Up.png alt>
+</p>
+<p>
+    <em>Fig2: Oculus Sonar connection scheme. The Computer (6) here will ru the ROS2 driver (or the C++ one)</em>
+</p>
+
 
 ### 2) Configure Wired Ethernet Connection
 
 In your computer configure the ethernet connection in IPv4 with  <br/>
 **IPv4 Method**: `Manual` <br/>
-**Addresses**: Address = x1.x2.x3.x4+1 where x1.x2.x3.x4 is the sonar ip | Netmask = 255.255.255.0 <br/>
+**Addresses**: <br/>
+Address = x1.x2.x3.x4+1 (where x1.x2.x3.x4 is the sonar ip) <br/>
+Netmask = 255.255.255.0 <br/>
 
-The sonar ip x1.x2.x3.x4 can be found easily by opening the [Oculus ViewPoint](https://www.blueprintsubsea.com/oculus/support.php) app and searching for the connected devices. 
+The sonar ip x1.x2.x3.x4 can be found easily by opening the [Oculus ViewPoint](https://www.blueprintsubsea.com/oculus/support.php) app and searching for the connected devices. The address is found by UDP port, and the IP will be visible in the listed devices. 
 
 
 ## Quick Start Using the Driver 
 
 To start the oculus M3000d driver, different launch files are available for basic functionalities or more "advanced" features. 
 
-**IMPORTANT**: With the current implementation, you cannot start the ros2 driver while the Oculus ViewPoint is running. 
-If you try to launch any of the ROS2 driver scripts with the ViewPoint visualization running, it will not work. 
 
-**IMPORTANT**: Be sure that you don't have any firewall active on your device. This can cause connection problem both in the ViewPoint and with the ROS2 driver. You can disable it in a terminal by running the following command: 
-```
-sudo ufw disable
-```
+> [!IMPORTANT]  
+> You cannot start the ros2 driver while the Oculus ViewPoint is running. 
+> If you try to launch any of the ROS2 driver scripts with the ViewPoint visualization running, it will not work. 
+
+
+> [!IMPORTANT]  
+> Be sure that you don't have any firewall active on your device. This can cause connection problem both in the ViewPoint and with the ROS2 driver. You can disable it in a terminal by running the following command: `sudo ufw disable`
+    
+
 
 ### 0) Define the Initial Configuration
 
@@ -269,12 +293,13 @@ Setting up the driver and the processing node in advance is not crucial, since d
     
     <details close>
     <summary>Exposed Topics</summary>
-        If the driver is runned without any topic remapping (as the command above), it will expose: <br/>
-        \status :  <br/>
-        \ping : <br/>
-        \temperature : <br/>
-        \pressure : <br/>
-        Additionaly, the reconfiguration ROS2 node paramters are exposed to change the sonar configuration (frequency mode, gain, etc)<br/>
+        If the driver run without any topic or namespace remapping (as the command above), it will expose: <br/><br/>
+        \status : high-level status information about sensor state, device id, ip, and other information remapped in other topics for easy access. <br/>
+        \ping : encode the overall ping return in a readable way, including processed sound received, timestamp, etc. <br/>
+        \oculus_ping : encode the overall ping return. <br/>
+        \temperature : Internal electronics temperature. Used to enter in protection mode when temperature is too high.<br/>
+        \pressure : depth pressure to which the sensor is subjected. USed to retrieve depth for sound speed computation.<br/><br/>
+        Additionally, the reconfiguration ROS2 node parameters are exposed to change the sonar configuration (frequency mode, gain, etc)<br/>
         Refer to the section below "Reconfiguring the sonar" for further details on this. 
     </details>
     <br/>
@@ -343,12 +368,12 @@ The configuartion `.yaml` files are extensively commented to understand what eac
     The code is not yet optimized to be device agnostic in handling the absolute/relative paths, so you need to make some minor modification on the node header to properly configur ethe save path. 
     Additionally, some subscribers and publisher topic names are "hardcoded" in the nodes used in the steps above, take care of properly remapping the topic names and namespaces if needed. 
 
-    0) Open [/OCULUS_ROS2/oculus_ros2/include/sonar_saver_node.hpp](OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_saver_node.hpp) and update the
-       `OUTPUT_DIR` with your absolute desired save directory. 
+    0) Open [sonar_saver.yaml](OCULUS_ROS2/oculus_ros2/include/oculus_ros2/cfg/sonar_saver.yaml) and update the
+       `output_dir` and `bag_name` parameters with your absolute desired save directory. The polar and cartesian images will be saved in `output_dir/bag_name/`<br/>
     1) Since you apply changes on the source code, remember to rebuild the ws and source. 
     2) Start the sonar saver node 
        ```
-       ros2 run oculus_ros2 sonar_saver_node
+       ros2 run oculus_ros2 sonar_saver_node --ros-args --params-file </path/to/sonar_saver_yaml>.yaml
        ```     
     3) IF the bag store only the ping messages (with raw sonar echo readings). Start the viewer node flor image formation (polar and cartesian)
        ```
@@ -361,7 +386,7 @@ The configuartion `.yaml` files are extensively commented to understand what eac
     It is possible to peroform the steps above by launching a single launch file, taking care of properly updating the bag path, topic names and possible namespaces of the nodes: 
 
     ```
-    ros2 launch oculus_ros2 oculus_ros2_bag_saver.launch.py bag_path:=<absolute_path_to_bag>
+    ros2 launch oculus_ros2 oculus_ros2_bag_saver.launch.py bag_path:=<path/to/bag>
     ```
     
 - **Post process and inspect ros2 bag messages**<br/>
