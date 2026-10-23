@@ -19,7 +19,7 @@ It is not a substitute of the vendor application [Oculus ViewPoint V2](https://w
 ###  Software "Development": Updating Extisting Drivers
 
 This package is adapted and extended from the M1200d [ROS2 Driver](https://github.com/godardma/oculus_ros2/tree/main) by ENSTA Bretagne Robotics, and the underlying low level Driver [Sonar Interface](https://github.com/ENSTABretagneRobotics/oculus_driver).<br/>
-The mentioned M1200d software has been updated for the M3000d using the up-to-date Blueye proprietary [oculus_sdk](./reference_oculus_sdk/) (shared by the technical support team).<br/>
+The mentioned M1200d software has been updated for the M3000d using the up-to-date [Blueprint subsea](https://www.blueprintsubsea.com/) proprietary [oculus_sdk](./reference_oculus_sdk/) (kindly shared by the technical support team).<br/>
 
 Some useful PDF documents to develop the sonar software, use the sensor and interpret the data are collected in the [docs](docs/) folder of this repo.
 
@@ -616,3 +616,11 @@ List of software/hardware known problems, bugs and ideas for further improvement
 
 - **Implement Robust Sonar Image Filtering** <br/>
    It is mandatory before implementing any perception algorithms to find optimal ways to filter out as much noise as possible from the sonar data. Artifacts and Speckle noise will influence and degradate the performance of any compuer vision and deep learning technique. 
+
+- **Ensure Bandwidth** <br/>
+    Ensure that the communication can work at 10Mbs and not on 100Mbps. <br/>
+    ROS2 provide CLI tools
+    ```
+    ros2 topic bw /your/topic_name
+    ```
+    By default, this tool outputs the data rate in MB/s (Megabytes per second). multiply by 8 to check the Mbps
