@@ -1,6 +1,7 @@
 # Oculus M3000d Sonar ROS2 Driver Documentation
 
-ROS2 (Jazzy) Driver for the Blueprint Subsea Oculus M3000d Dual-Frequency Multibeam Sonar. 
+ROS2 (Jazzy) Driver for the Blueprint Subsea Oculus M3000d Dual-Frequency Multibeam Sonar. <br/>
+This driver should work with any sonar of the series M.
 
 A C++ (Without ROS) Sonar interface is under development in the [``cpp`` branch of this repo](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/tree/cpp)
 
@@ -244,7 +245,7 @@ Connecting the Sonar to the computer (Ethernet connection) <br/>
     <img width=600 src=docs/images/Sensor_Set_Up.png alt>
 </p>
 <p>
-    <em>Fig2: Oculus Sonar connection scheme. The Computer (6) here will ru the ROS2 driver (or the C++ one)</em>
+    <em>Fig2: Oculus Sonar connection scheme. The Computer (6) here will be the ROS2 driver (or the C++ one)</em>
 </p>
 
 
