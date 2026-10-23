@@ -5,15 +5,15 @@ SonarSaver::SonarSaver()
 {
     // Declare parameters
     this->declare_parameter<double>("pixels_per_meter", 100.0);
-    this->declare_parameter<std::string>("dir_name", "year_month_day_hour_minute_second");
-    this->declare_parameter<std::string>("output_path", "/path/to/images/dir");
+    this->declare_parameter<std::string>("dataset_name", "year_month_day_hour_minute_second");
+    this->declare_parameter<std::string>("output_path", "/path/to/images/dir/");
 
     // Get parameters
     this->pixels_per_meter_ = this->get_parameter("pixels_per_meter").as_double();
     this->output_path_ = this->get_parameter("output_path").as_string();
-    this->bag_name_ = this->get_parameter("bag_name").as_string();
+    this->dataset_name_ = this->get_parameter("dataset_name").as_string();
 
-    this->create_output_dir_(output_path_, bag_name_);
+    this->create_output_dir_(output_path_, dataset_name_);
 
     //RCLCPP_INFO(this->get_logger(), "Sonar Saver Parameters:");
 
@@ -56,15 +56,15 @@ rcl_interfaces::msg::SetParametersResult SonarSaver::parametersCallback(
     return result;
 }
 
-void SonarSaver::create_output_dir_(std::string output_path, std::string bag_name)
+void SonarSaver::create_output_dir_(std::string output_path, std::string dataset_name)
 {
-    this->output_dir_ = output_path + bag_name + "/sonar/";
+    this->output_dir_ = output_path + dataset_name + "/sonar/";
 
     if (std::filesystem::exists(output_dir_))
         std::filesystem::remove_all(output_dir_);
 
-    std::filesystem::create_directory(output_dir_ + "polar/");
-    std::filesystem::create_directory(output_dir_ + "cartesian/");
+    std::filesystem::create_directories(output_dir_ + "polar/");
+    std::filesystem::create_directories(output_dir_ + "cartesian/");
 
     RCLCPP_INFO(this->get_logger(), "Created directory to store images");
 

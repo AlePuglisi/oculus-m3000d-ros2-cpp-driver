@@ -3,8 +3,10 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch.actions import ExecuteProcess, DeclareLaunchArgument
+
+from pathlib import Path
 
 def generate_launch_description():
 
@@ -22,6 +24,14 @@ def generate_launch_description():
     )
     bag_path = LaunchConfiguration('bag_path')
 
+    # Last component of bag_path, tolerant of a trailing slash
+    # bag_name = PythonExpression([
+    #     "__import__('os').path.basename(__import__('os').path.normpath('",
+    #     bag_path,
+    #     "'))"
+    # ])
+    bag_name = PythonExpression(["'", bag_path, "'.rstrip('/').split('/')[-1]"])
+
     sonar_viewer_node = Node(
         package="oculus_ros2",
         executable="sonar_viewer_node",
@@ -35,7 +45,7 @@ def generate_launch_description():
         package="oculus_ros2",
         executable="sonar_saver_node",
         name="sonar_saver",
-        parameters=[saver_config],
+        parameters=[saver_config,{"dataset_name": bag_name}], 
         namespace="sonar",
         output="screen",
     )

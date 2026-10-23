@@ -33,7 +33,7 @@ private:
     void cartesian_image_callback_(const sensor_msgs::msg::Image & msg);
     void polar_image_callback_(const sensor_msgs::msg::Image & msg);
     // Utils
-    void create_output_dir_(std::string output_dir, std::string bag_name);
+    void create_output_dir_(std::string output_dir, std::string dataset_name);
 
     rcl_interfaces::msg::SetParametersResult parametersCallback(
         const std::vector<rclcpp::Parameter> &parameters);
@@ -48,7 +48,7 @@ private:
 
     // Configuration
     double pixels_per_meter_;
-    std::string bag_name_;
+    std::string dataset_name_;
     std::string output_path_;
     std::string output_dir_;
 
