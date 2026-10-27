@@ -9,7 +9,7 @@ The purpose of this driver is to be able to retrieve raw sonar data with custom 
 It is not a substitute of the vendor application [Oculus ViewPoint V2](https://www.blueprintsubsea.com/oculus/support.php).
 
 <p>
-    <img width=1000 src=docs/images/Oculus_Driver_Overview.png alt>
+    <img width=1000 src=docs/assets/images/Oculus_Driver_Overview.png alt>
 </p>
 <p>
     <em>Fig1: ROS2 Communication architecture. The oculus_sonar node instantiate a driver client to  establish TCP/UDP communication with the hardware.
@@ -21,7 +21,7 @@ It is not a substitute of the vendor application [Oculus ViewPoint V2](https://w
 This package is adapted and extended from the M1200d [ROS2 Driver](https://github.com/godardma/oculus_ros2/tree/main) by ENSTA Bretagne Robotics, and the underlying low level Driver [Sonar Interface](https://github.com/ENSTABretagneRobotics/oculus_driver).<br/>
 The mentioned M1200d software has been updated for the M3000d using the up-to-date [Blueprint subsea](https://www.blueprintsubsea.com/) proprietary [oculus_sdk](./reference_oculus_sdk/) (kindly shared by the technical support team).<br/>
 
-Some useful PDF documents to develop the sonar software, use the sensor and interpret the data are collected in the [docs](docs/) folder of this repo.
+Some useful PDF documents to develop the sonar software, use the sensor and interpret the data are collected in the [docs/assets](docs/assets/) folder of this repo.
 
 ## Requirements
 
@@ -53,7 +53,7 @@ This repository contains all the code necessary to build and use the blueprint s
 ```
 oculus-ros2-cpp-driver/
 ├── docker/                  # Docker configuration files (work in progress...)
-├── docs/                    # Documentation images and files 
+├── docs/assets/                    # Documentation images and files 
 ├── oculus_driver_lib/       # C++ driver library
 ├── oculus_ros2/             # ROS2 packages
 │   ├── oculus_interfaces/   # Message/service 
@@ -75,7 +75,7 @@ oculus-ros2-cpp-driver/
     <summary> Install and Set Up ROS2 Jazzy </summary>
     
     - 1.1) **Install** ROS Jazzy and source 
-    Refer to [ros documentation](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html) for the step-by-step installation tutorial. <br/>
+    Refer to [ros documentation](https://docs/assets.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html) for the step-by-step installation tutorial. <br/>
 
         Anytime you open a new terminal, you should source your underlay ros environment with:
         ```
@@ -242,7 +242,7 @@ Connecting the Sonar to the computer (Ethernet connection) <br/>
 
 
 <p>
-    <img width=600 src=docs/images/Sensor_Set_Up.png alt>
+    <img width=600 src=docs/assets/images/Sensor_Set_Up.png alt>
 </p>
 <p>
     <em>Fig2: Oculus Sonar connection scheme. The Computer (6) here will be the ROS2 driver (or the C++ one)</em>
@@ -405,11 +405,11 @@ The configuartion `.yaml` files are extensively commented to understand what eac
 ## Sonar Data Brief Description 
 
 Preliminary notes on how the Oculus M3000d Sonar generate the acoustic images readings and how they are stored in the ROS2 driver.<br/>
-To read more about the Data Structure Definitions, read the official [documentation file](docs/NT-148-D00527-06_Oculus_Data_Structure_Definitions.pdf)
+To read more about the Data Structure Definitions, read the official [documentation file](docs/assets/NT-148-D00527-06_Oculus_Data_Structure_Definitions.pdf)
 
 ### Oculus Network Communication 
 
-As indicated in the sdk [documentation file](docs/NT-148-D00527-06_Oculus_Data_Structure_Definitions.pdf), the sensor communicate with the 
+As indicated in the sdk [documentation file](docs/assets/NT-148-D00527-06_Oculus_Data_Structure_Definitions.pdf), the sensor communicate with the 
 processor (computer or embedded system) with both UDP and TCP. <br/>
 
 **UDP Socket (Port: 52102)**<br/>
@@ -463,8 +463,8 @@ Additionally to the transducers used to generate the acoustic image (transmit so
 In particular, the M3000d integrate an Attitude and Heading Reference System (AHRS) and Pressure Sensor (snesors' model and specifications not available) <br/>
 The images below show the location and axis configuration of the AHRS (shared by the BluePrintSubsea Technical support team).
 
-<image width=480 height=360 src=docs/images/M3000d_AHRS_location.png>
-<image width=480 height=360 src=docs/images/M3000d_AHRS_axis.png>
+<image width=480 height=360 src=docs/assets/images/M3000d_AHRS_location.png>
+<image width=480 height=360 src=docs/assets/images/M3000d_AHRS_axis.png>
 
 **IMPORTANT**: The raw data of the IMU used by the AHRS are not exposed by the sdk.
 Roll, Pitch and Heading are stored in the oculus Ping message. <br/>
