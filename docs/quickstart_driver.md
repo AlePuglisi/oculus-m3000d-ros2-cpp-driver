@@ -21,7 +21,7 @@ sudo ufw disable
 
 If you run one of the launch files, you can set the initial node parameter configuration in a `.yaml`
 file. Navigate to the
-[`oculus_ros2/oculus_ros2/cfg`](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/tree/main/oculus_ros2/oculus_ros2/cfg)
+[`oculus_ros2/oculus_ros2/cfg`](./../OCULUS_ROS2/oculus_ros2/cfg/)
 directory, where you can find the configuration file used by each node.
 
 Setting up the driver and processing nodes in advance is not crucial, since dynamic parameter

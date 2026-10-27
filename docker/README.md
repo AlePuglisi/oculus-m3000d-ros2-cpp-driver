@@ -24,7 +24,7 @@ Quick setup guide for running the Oculus M3000d sonar driver in Docker.
 
 ```bash
 # 1. Navigate to docker directory
-cd ~/sonar_ws/src/oculus-ros2-cpp-driver/docker
+cd ~/sonar_ws/src/oculus-m3000d-ros2-cpp-driver/docker
 
 # 2. Make script executable (first time only)
 chmod +x run_linux.sh
@@ -49,7 +49,7 @@ REM    - Display number: 0
 REM    - Check "Disable access control"
 
 REM 2. Navigate to docker directory
-cd C:\path\to\oculus-ros2-cpp-driver\docker
+cd C:\path\to\oculus-m3000d-ros2-cpp-driver\docker
 
 REM 3. Run the container
 run_windows.bat
@@ -213,7 +213,7 @@ tcpdump -i any port 52102
 
 Make sure you're in the `docker/` directory:
 ```bash
-pwd  # Should show: .../oculus-ros2-cpp-driver/docker
+pwd  # Should show: .../oculus-m3000d-ros2-cpp-driver/docker
 ls ..  # Should show: oculus_driver_lib, oculus_ros2, docker, etc.
 ```
 
@@ -236,8 +236,8 @@ When you run the container:
    - Everything isolated from your host system
 
 3. **Your files stay on host**:
-   - Windows: `C:\path\to\oculus-ros2-cpp-driver\`
-   - Linux: `~/sonar_ws/src/oculus-ros2-cpp-driver/`
+   - Windows: `C:\path\to\oculus-m3000d-ros2-cpp-driver\`
+   - Linux: `~/sonar_ws/src/oculus-m3000d-ros2-cpp-driver/`
    - Docker copies them during build
 
 ---

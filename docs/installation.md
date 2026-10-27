@@ -83,13 +83,13 @@ colcon build
 
 ```bash
 cd src
-git clone https://github.com/AlePuglisi/oculus-ros2-cpp-driver.git
+git clone https://github.com/AlePuglisi/oculus-m3000d-ros2-cpp-driver.git
 ```
 
 ### 5. Move into the driver directory for the next steps
 
 ```bash
-cd oculus-ros2-cpp-driver
+cd oculus-m3000d-ros2-cpp-driver
 ```
 
 ## 1) Install the `oculus_driver` library
@@ -138,7 +138,7 @@ sudo make -j4 install
 
 This installs the driver at the system level (in `/usr/local/lib`), not locally in the workspace.
 If you want the driver installed only inside the workspace, modify the
-[`oculus_driver_lib` CMakeLists.txt](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/blob/main/oculus_driver_lib/CMakeLists.txt),
+[`oculus_driver_lib` CMakeLists.txt](./../oculus_driver_lib/CMakeLists.txt),
 or use the explicit build commands above with `-DCMAKE_INSTALL_PREFIX` pointing to a different install path.
 
 :::{note}

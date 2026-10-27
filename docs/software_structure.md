@@ -23,18 +23,18 @@ Other features will be integrated according to research task requirements.
 
 ## `oculus_interfaces`
 
-[This package](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/tree/main/oculus_ros2/oculus_interfaces)
+[This package](./../OCULUS_ROS2/oculus_interfaces/)
 contains the custom ROS2 sonar message interfaces. It allows exchanging, over the ROS network,
 information equivalent to the one used by the proprietary software.
 
 These ROS2 messages wrap the official Oculus
-[SDK](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/blob/main/oculus_driver_lib/include/oculus_driver/OculusMessage.h)
+[SDK - OculusMessage.h](./../oculus_driver_lib/include/oculus_driver/OculusMessage.h)
 message data structures, converted by
-[`conversions.hpp`](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/blob/main/oculus_ros2/oculus_ros2/include/oculus_ros2/conversions.hpp).
+[`conversions.hpp`](./../OCULUS_ROS2/oculus_ros2/oculus_ros2/include/oculus_ros2/conversions.hpp).
 
 ## `oculus_ros2`
 
-[This package](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/tree/main/oculus_ros2/oculus_ros2)
+[This package](./../OCULUS_ROS2/oculus_ros2/)
 handles the interface with the sonar hardware and the data processing.
 
 ### `conversions.hpp`
@@ -47,7 +47,7 @@ methods to ROSify them and publish them on the ROS network.
 
 This node handles the interface with the sonar hardware through an instance of the low-level sonar
 driver class.
-([header](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/blob/main/oculus_ros2/oculus_ros2/include/oculus_ros2/oculus_sonar_node.hpp))
+([header](./../OCULUS_ROS2/oculus_ros2/include/oculus_ros2/oculus_sonar_node.hpp))
 
 Its **main tasks** are:
 
@@ -57,7 +57,7 @@ Its **main tasks** are:
 - handle reconfiguration requests.
 
 The sensor configuration is handled by this node's ROS parameters, initialized from a config file:
-[`oculus_sonar.yaml`](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/blob/main/oculus_ros2/oculus_ros2/cfg/oculus_sonar.yaml).
+[`oculus_sonar.yaml`](./../OCULUS_ROS2/oculus_ros2/cfg/oculus_sonar.yaml).
 
 The node implements the parameter reconfiguration callback, sending **dynamic reconfiguration** requests
 to the sonar.
@@ -68,7 +68,7 @@ This part is still under development and adjustment.
 
 ### `sonar_viewer_node`
 
-([header](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/blob/main/oculus_ros2/oculus_ros2/include/oculus_ros2/sonar_viewer_node.hpp))
+([sonar_viewer_node.hpp](./../OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_viewer_node.hpp))
 
 This node processes the raw sonar data (as a bearings-bins matrix) to create a polar and a cartesian
 acoustic image.
@@ -100,7 +100,7 @@ applied twice (both AGC and transmission loss).
 
 ### `sonar_point_cloud_node`
 
-([header](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/blob/main/oculus_ros2/oculus_ros2/include/oculus_ros2/sonar_point_cloud_node.hpp))
+([sonar_point_cloud_node.hpp](./../OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_point_cloud_node.hpp))
 
 This node publishes a point cloud computed from the cartesian sonar image. The points are selected as
 the ones with a pixel intensity (echo intensity) higher than a user-specified threshold. Due to the
@@ -109,7 +109,7 @@ plane (where the sonar frustum is projected).
 
 ### `sonar_state_estimation_node`
 
-([header](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/blob/main/oculus_ros2/oculus_ros2/include/oculus_ros2/sonar_state_estimation_node.hpp))
+([sonar_state_estimation_node.hpp](./../OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_state_estimation_node.hpp))
 
 This node exploits the proprioceptive sonar information (depth and orientation) coming from the depth
 sensor and the AHRS.
@@ -125,7 +125,7 @@ This node is a prototype and is currently not reliable (see
 
 ### `sonar_saver_node`
 
-([header](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/blob/main/oculus_ros2/oculus_ros2/include/oculus_ros2/sonar_saver_node.hpp))
+([sonar_saver_node.hpp](./../OCULUS_ROS2/oculus_ros2/include/oculus_ros2/sonar_saver_node.hpp))
 
 This node should be run to save **all** the cartesian and polar acoustic images inside a specified
 output directory. It uses the ROS `cv_bridge` utilities to convert ROS images to the OpenCV format,

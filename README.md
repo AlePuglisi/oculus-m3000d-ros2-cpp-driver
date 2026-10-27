@@ -1,11 +1,13 @@
 # Oculus M3000d Sonar ROS2 Driver Documentation
 
-[![Docs](https://readthedocs.org/projects/oculus-ros2-cpp-driver/badge/?version=latest)](https://oculus-ros2-cpp-driver.readthedocs.io)
+[![Docs](https://readthedocs.org/projects/oculus-m3000d-ros2-cpp-driver/badge/?version=latest)](https://oculus-m3000d-ros2-cpp-driver.readthedocs.io)
+
+Read The [Doc](https://oculus-m3000d-ros2-cpp-driver.readthedocs.io) for a more friendly documentation. 
 
 ROS2 (Jazzy) Driver for the Blueprint Subsea Oculus M3000d Dual-Frequency Multibeam Sonar. <br/>
 This driver should work with any sonar of the series M.
 
-A C++ (Without ROS) Sonar interface is under development in the [``cpp`` branch of this repo](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/tree/cpp)
+A C++ (Without ROS) Sonar interface is under development in the [``cpp`` branch of this repo](https://github.com/AlePuglisi/oculus-m3000d-ros2-cpp-driver/tree/cpp)
 
 The purpose of this driver is to be able to retrieve raw sonar data with custom code during sensor deployment, either in a ROS2 perception-control stack, or in a custom C++ architecture for the robotic system.<br/>
 It is not a substitute of the vendor application [Oculus ViewPoint V2](https://www.blueprintsubsea.com/oculus/support.php).
@@ -53,7 +55,7 @@ This repository contains all the code necessary to build and use the blueprint s
 ### Folder Structure
 
 ```
-oculus-ros2-cpp-driver/
+oculus-m3000d-ros2-cpp-driver/
 ├── docker/                  # Docker configuration files (work in progress...)
 ├── docs/assets/                    # Documentation images and files 
 ├── oculus_driver_lib/       # C++ driver library
@@ -149,12 +151,12 @@ oculus-ros2-cpp-driver/
 4. **Clone or Copy this repo in /src**
     ```
     cd src
-    git clone https://github.com/AlePuglisi/oculus-ros2-cpp-driver.git
+    git clone https://github.com/AlePuglisi/oculus-m3000d-ros2-cpp-driver.git
     ```
 
 5. **Move in the driver dircetory for the next steps**
     ```
-    cd oculus-ros2-cpp-driver
+    cd oculus-m3000d-ros2-cpp-driver
     ```
 
 ### 1) Install the oculus_driver 

@@ -4,7 +4,7 @@ ROS2 (Jazzy) driver for the Blueprint Subsea Oculus M3000d dual-frequency multib
 This driver should work with any sonar of the M series.
 
 A C++ (without ROS) sonar interface is under development in the
-[`cpp` branch of this repo](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/tree/cpp).
+[`cpp` branch of this repo](https://github.com/AlePuglisi/oculus-m3000d-ros2-cpp-driver/tree/cpp).
 
 The purpose of this driver is to retrieve raw sonar data with custom code during sensor deployment,
 either in a ROS2 perception-control stack, or in a custom C++ architecture for the robotic system.
@@ -30,7 +30,7 @@ underlying low-level driver [Sonar Interface](https://github.com/ENSTABretagneRo
 
 The M1200d software has been updated for the M3000d using the up-to-date
 [Blueprint Subsea](https://www.blueprintsubsea.com/) proprietary
-[oculus_sdk](https://github.com/AlePuglisi/oculus-ros2-cpp-driver/tree/main/reference_oculus_sdk)
+[oculus_sdk](./../reference_oculus_sdk/)
 (kindly shared by the technical support team).
 
 Some useful PDF documents to develop the sonar software, use the sensor and interpret the data are
@@ -55,7 +55,7 @@ sonar driver. It also includes the original proprietary SDK (the one used in the
 ViewPoint V2) as reference code. Note that the SDK code is **not** used during the build process.
 
 ```text
-oculus-ros2-cpp-driver/
+oculus-m3000d-ros2-cpp-driver/
 ├── docker/                  # Docker configuration files (work in progress...)
 ├── assets/                  # Documentation images and files
 ├── oculus_driver_lib/       # C++ driver library
