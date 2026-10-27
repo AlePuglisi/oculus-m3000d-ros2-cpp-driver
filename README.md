@@ -348,12 +348,12 @@ The configuartion `.yaml` files are extensively commented to understand what eac
 
     **TAKE CARE**: If the full oculus stack is running, including the point cloud and high resolution cartesian images, bag files can be EXTREMELY heavy if all messages are stored. 
 
-    For example, the most important data published during sonar usage are stored in `/ping` message. The `/ping` topic 
+    For example, the most important data published during sonar usage are stored in `/oculus_ping` message. The `/oculus_ping` topic 
     in fact stores all the acoustic echo recorded by the oculus receiver, that can be then processed with the `sonar_viewer` node.  
     If `the oculus_sonar_node` is running with the `sonar` namespace, you can store the ping messages as: 
 
     ```
-    ros2 bag record /sonar/ping
+    ros2 bag record /sonar/oculus_ping
     ```
 
     Then, replaying this bag with the `sonar_viewer_node` running you will have access to all the visualization functionality of the driver library. The same for the other sonar nodes that process the raw ping data or the cartesian/polar images. 
