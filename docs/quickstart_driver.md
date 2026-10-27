@@ -103,13 +103,13 @@ If the full Oculus stack is running, including the point cloud and high-resoluti
 bag files can be **extremely** heavy if all messages are stored.
 :::
 
-The most important data published during sonar usage is stored in the `/oculus_ping` message. This
+The most important data published during sonar usage is stored in the `/ping` message. This
 topic stores all the acoustic echo recorded by the Oculus receiver, which can then be processed with
 the `sonar_viewer` node. If the `oculus_sonar_node` is running in the `sonar` namespace, you can
 store the ping messages with:
 
 ```bash
-ros2 bag record /sonar/oculus_ping
+ros2 bag record /sonar/ping
 ```
 
 Replaying this bag with the `sonar_viewer_node` running gives you access to all the visualization
